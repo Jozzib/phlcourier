@@ -6,8 +6,8 @@ font-family: 'Inter', sans-serif;
 }
 
 body {
-background-color: #f4f4f9;
-color: #333;
+background-color: #f8f9fa;
+color: #222;
 display: flex;
 flex-direction: column;
 min-height: 100vh;
@@ -17,46 +17,50 @@ main {
 flex: 1;
 }
 
-/* Professional Header (DHL Red & Yellow accents) */
+/* Luxury Header: Rich Black & Gold Accent */
 header {
-background-color: #d40511; /* DHL Red */
+background-color: #0b0b0b;
 color: white;
 display: flex;
 justify-content: space-between;
 align-items: center;
 padding: 18px 50px;
-box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+border-bottom: 2px solid #D4AF37;
+box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 header .logo {
 font-size: 24px;
 font-weight: 800;
 letter-spacing: 1px;
+color: #fff;
 }
 
 header .logo span {
-color: #ffcc00; /* DHL Yellow */
+color: #D4AF37;
 }
 
 header nav a {
-color: white;
+color: #ffffff;
 text-decoration: none;
 margin-left: 25px;
 font-weight: 600;
 font-size: 15px;
-transition: opacity 0.2s;
+transition: color 0.2s;
 }
 
 header nav a:hover {
-opacity: 0.8;
+color: #D4AF37;
 }
 
-/* Hero Section with DHL Yellow Background */
+/* Hero Section with Flight Background */
 .hero {
 text-align: center;
-padding: 70px 20px;
-background-color: #ffcc00; /* DHL Yellow */
-color: #d40511; /* DHL Red text */
+padding: 100px 20px;
+background: linear-gradient(rgba(10, 10, 10, 0.75), rgba(10, 10, 10, 0.75)), url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1920&auto=format&fit=crop');
+background-size: cover;
+background-position: center;
+color: #ffffff;
 }
 
 .hero h1 {
@@ -64,13 +68,14 @@ font-size: 42px;
 font-weight: 800;
 margin-bottom: 12px;
 letter-spacing: -0.5px;
+color: #ffffff;
 }
 
 .hero p {
-color: #222;
+color: #e0e0e0;
 font-size: 18px;
 margin-bottom: 30px;
-font-weight: 500;
+font-weight: 400;
 }
 
 .tracking-box {
@@ -85,16 +90,17 @@ margin: 0 auto;
 flex: 1;
 padding: 16px 20px;
 font-size: 16px;
-border: 2px solid #fff;
+border: 2px solid #D4AF37;
 border-radius: 6px;
 outline: none;
-box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+background: rgba(255, 255, 255, 0.95);
+color: #111;
 }
 
 .tracking-box button {
 padding: 16px 30px;
-background-color: #d40511;
-color: white;
+background-color: #D4AF37;
+color: #0b0b0b;
 font-size: 16px;
 font-weight: bold;
 border: none;
@@ -104,7 +110,7 @@ transition: background-color 0.2s;
 }
 
 .tracking-box button:hover {
-background-color: #b0040e;
+background-color: #c49b2c;
 }
 
 /* Result Card Section */
@@ -119,7 +125,7 @@ background: white;
 padding: 35px;
 border-radius: 10px;
 box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-border-top: 5px solid #d40511;
+border-top: 5px solid #D4AF37;
 }
 
 .card-header {
@@ -144,6 +150,7 @@ margin-bottom: 30px;
 background: #f9f9fb;
 padding: 20px;
 border-radius: 8px;
+border-left: 4px solid #D4AF37;
 }
 
 .label {
@@ -168,8 +175,8 @@ font-size: 13px;
 font-weight: bold;
 }
 
-.badge-on-hold { background-color: #d40511 !important; color: white !important; }
-.badge-in-transit { background-color: #ffcc00 !important; color: #111 !important; }
+.badge-on-hold { background-color: #d9534f !important; color: white !important; }
+.badge-in-transit { background-color: #D4AF37 !important; color: #0b0b0b !important; }
 .badge-delivered { background-color: #28a745 !important; color: white !important; }
 
 .hidden { display: none; }
@@ -201,20 +208,21 @@ border-radius: 10px;
 box-shadow: 0 6px 15px rgba(0,0,0,0.05);
 text-align: left;
 position: relative;
-border-top: 4px solid #ffcc00;
+border-top: 4px solid #D4AF37;
 }
 
 .step-num {
 display: inline-block;
 width: 36px;
 height: 36px;
-background-color: #d40511;
-color: white;
+background-color: #0b0b0b;
+color: #D4AF37;
 font-weight: bold;
 text-align: center;
 line-height: 36px;
 border-radius: 50%;
 margin-bottom: 15px;
+border: 1px solid #D4AF37;
 }
 
 .process-card h3 {
@@ -231,7 +239,7 @@ line-height: 1.5;
 
 /* Benefits Section */
 .benefits-section {
-background-color: #fff;
+background-color: #ffffff;
 padding: 70px 20px;
 margin-top: 60px;
 border-top: 1px solid #e5e5e5;
@@ -267,9 +275,10 @@ border: 1px solid #eaeaea;
 
 .benefit-icon {
 font-size: 32px;
-background: #fff3cd;
+background: #fff8e1;
 padding: 15px;
 border-radius: 8px;
+border: 1px solid #ffe082;
 }
 
 .benefit-item h3 {
@@ -284,11 +293,108 @@ color: #555;
 line-height: 1.5;
 }
 
+/* Contact Section Styling */
+.contact-section {
+background-color: #ffffff;
+padding: 80px 20px;
+border-top: 1px solid #e5e5e5;
+}
+
+.contact-container {
+max-width: 1000px;
+margin: 0 auto;
+text-align: center;
+}
+
+.contact-container h2 {
+font-size: 32px;
+color: #111;
+margin-bottom: 15px;
+}
+
+.contact-container p {
+color: #666;
+font-size: 16px;
+margin-bottom: 40px;
+}
+
+.contact-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 40px;
+text-align: left;
+background: #f9f9fb;
+padding: 40px;
+border-radius: 10px;
+border-top: 5px solid #D4AF37;
+box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.contact-info h3 {
+font-size: 20px;
+color: #111;
+margin-bottom: 20px;
+}
+
+.contact-info p {
+font-size: 15px;
+color: #444;
+margin-bottom: 12px;
+}
+
+.contact-form .form-group {
+margin-bottom: 20px;
+}
+
+.contact-form label {
+display: block;
+font-size: 13px;
+font-weight: bold;
+color: #444;
+margin-bottom: 6px;
+text-transform: uppercase;
+}
+
+.contact-form input,
+.contact-form textarea {
+width: 100%;
+padding: 12px 15px;
+border: 1px solid #ccc;
+border-radius: 6px;
+font-size: 15px;
+outline: none;
+background: #fff;
+transition: border-color 0.2s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+border-color: #D4AF37;
+}
+
+.contact-submit {
+background-color: #0b0b0b;
+color: #D4AF37;
+padding: 14px 25px;
+font-size: 16px;
+font-weight: bold;
+border: 1px solid #D4AF37;
+border-radius: 6px;
+cursor: pointer;
+width: 100%;
+transition: background 0.2s, color 0.2s;
+}
+
+.contact-submit:hover {
+background-color: #D4AF37;
+color: #0b0b0b;
+}
+
 /* Timeline Styling */
 .timeline {
 list-style: none;
 padding-left: 20px;
-border-left: 3px solid #d40511;
+border-left: 3px solid #D4AF37;
 margin-top: 20px;
 }
 
@@ -305,7 +411,7 @@ left: -26px;
 top: 4px;
 width: 12px;
 height: 12px;
-background-color: #d40511;
+background-color: #D4AF37;
 border-radius: 50%;
 }
 
@@ -321,10 +427,11 @@ color: #777;
 }
 
 footer {
-background-color: #111;
+background-color: #0b0b0b;
 color: #aaa;
 text-align: center;
 padding: 25px;
 font-size: 14px;
 margin-top: auto;
+border-top: 2px solid #222;
 }
