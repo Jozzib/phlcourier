@@ -3,67 +3,248 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PHL Courier | Secure Admin Control Panel</title>
-<link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>PHL Express | Admin Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+body { background-color: #0f0f0f; color: #fff; min-height: 100vh; display: flex; flex-direction: column; }
+header { background-color: #1a1a1a; padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #D4AF37; }
+.logo { font-size: 22px; font-weight: 800; color: #fff; letter-spacing: 1px; }
+.logo span { color: #D4AF37; }
+.nav-link { color: #D4AF37; text-decoration: none; font-size: 14px; font-weight: 600; }
+
+/* Login Screen */
+#loginOverlay { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
+.login-card { background: #1a1a1a; padding: 40px; border-radius: 8px; width: 100%; max-width: 400px; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.login-card h2 { margin-bottom: 20px; font-size: 24px; color: #D4AF37; text-align: center; }
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; margin-bottom: 8px; font-size: 14px; color: #aaa; }
+.form-group input { width: 100%; padding: 12px; background: #2a2a2a; border: 1px solid #444; border-radius: 4px; color: #fff; font-size: 16px; outline: none; }
+.form-group input:focus { border-color: #D4AF37; }
+.btn-submit { width: 100%; padding: 12px; background-color: #D4AF37; color: #000; border: none; border-radius: 4px; font-weight: 700; font-size: 16px; cursor: pointer; transition: background 0.2s; }
+.btn-submit:hover { background-color: #c19b2e; }
+
+/* Dashboard Container */
+#dashboardContainer { display: none; padding: 40px 5%; flex: 1; max-width: 1200px; margin: 0 auto; width: 100%; }
+.dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 15px; }
+.dashboard-header h1 { font-size: 28px; color: #fff; }
+.btn-logout { background: transparent; border: 1px solid #e74c3c; color: #e74c3c; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600; transition: all 0.2s; }
+.btn-logout:hover { background: #e74c3c; color: #fff; }
+
+.admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+@media (max-width: 768px) { .admin-grid { grid-template-columns: 1fr; } }
+
+.admin-card { background: #1a1a1a; padding: 25px; border-radius: 8px; border: 1px solid #333; }
+.admin-card h3 { font-size: 18px; margin-bottom: 20px; color: #D4AF37; border-bottom: 1px solid #333; padding-bottom: 10px; }
+.admin-form-group { margin-bottom: 15px; }
+.admin-form-group label { display: block; margin-bottom: 5px; font-size: 13px; color: #aaa; }
+.admin-form-group input, .admin-form-group select, .admin-form-group textarea { width: 100%; padding: 10px; background: #2a2a2a; border: 1px solid #444; border-radius: 4px; color: #fff; font-size: 14px; outline: none; }
+.admin-form-group input:focus, .admin-form-group select:focus { border-color: #D4AF37; }
+.btn-action { background-color: #D4AF37; color: #000; border: none; padding: 12px 20px; font-weight: 700; border-radius: 4px; cursor: pointer; width: 100%; transition: background 0.2s; }
+.btn-action:hover { background-color: #c19b2e; }
+.error-msg { color: #e74c3c; font-size: 14px; text-align: center; margin-top: 10px; }
+</style>
 </head>
 <body>
+
 <header>
-<div class="logo">PHL <span>ADMIN PANEL</span></div>
-<nav>
-<a href="index.html" target="_blank">View Public Site ↗</a>
-</nav>
+<div class="logo">PHL <span>EXPRESS</span></div>
+<a href="index.html" class="nav-link">← Back to Public Site</a>
 </header>
 
-<main>
-<div class="admin-container" style="margin-top: 40px;">
-<h2>Logistics Control Dashboard</h2>
-<p class="subtitle">Create shipments, update real-time locations, or put items on hold.</p>
+<!-- LOGIN SCREEN -->
+<div id="loginOverlay">
+<div class="login-card">
+<h2>Admin Portal Login</h2>
+<form id="loginForm" onsubmit="handleLogin(event)">
+<div class="form-group">
+<label>Username</label>
+<input type="text" id="username" placeholder="Enter username" required>
+</div>
+<div class="form-group">
+<label>Password</label>
+<input type="password" id="password" placeholder="Enter password" required>
+</div>
+<button type="submit" class="btn-submit">Login to Dashboard</button>
+<div id="loginError" class="error-msg"></div>
+</form>
+<p style="margin-top: 15px; font-size: 12px; color: #777; text-align: center;">Default: admin / admin123</p>
+</div>
+</div>
 
-<!-- Register New Shipment -->
+<!-- DASHBOARD (Hidden until logged in) -->
+<div id="dashboardContainer">
+<div class="dashboard-header">
+<div>
+<h1>Logistics Control Dashboard</h1>
+<p style="color: #aaa; font-size: 14px; margin-top: 5px;">Create shipments, update real-time statuses, and manage deliveries.</p>
+</div>
+<button class="btn-logout" onclick="handleLogout()">Logout</button>
+</div>
+
+<div class="admin-grid">
+<!-- 1. Register New Shipment -->
 <div class="admin-card">
 <h3>1. Register New Shipment</h3>
-<div class="form-group">
+<form onsubmit="createShipment(event)">
+<div class="admin-form-group">
 <label>Tracking Number</label>
-<input type="text" id="newTrkNum" placeholder="e.g. PHL-554433">
+<input type="text" id="newTrackingNum" placeholder="e.g. PHL-554433" required>
 </div>
-<div class="form-group">
+<div class="admin-form-group">
 <label>Estimated Delivery Date</label>
-<input type="text" id="newDelivery" placeholder="e.g. August 5, 2026">
+<input type="text" id="newDeliveryDate" placeholder="e.g. August 5, 2026" required>
 </div>
-<button onclick="createShipment()" class="btn-primary">Create Shipment</button>
+<div class="admin-form-group">
+<label>Initial Status</label>
+<select id="newStatus">
+<option value="In Transit">In Transit</option>
+<option value="Out for Delivery">Out for Delivery</option>
+<option value="Delivered">Delivered</option>
+<option value="On Hold">On Hold</option>
+</select>
+</div>
+<button type="submit" class="btn-action">Create Shipment</button>
+</form>
 </div>
 
-<!-- Update Existing Shipment -->
+<!-- 2. Update Status & Location -->
 <div class="admin-card">
-<h3>2. Update Status, Location, or Hold Package</h3>
-<div class="form-group">
+<h3>2. Update Status & Checkpoints</h3>
+<form onsubmit="updateShipment(event)">
+<div class="admin-form-group">
 <label>Select Shipment</label>
-<select id="adminTrkSelect" onchange="loadAdminShipmentDetails()">
+<select id="updateTrackingSelect" required>
 <option value="">-- Choose Tracking Number --</option>
 </select>
 </div>
-
-<div class="form-group">
+<div class="admin-form-group">
 <label>Current Status</label>
-<select id="adminStatusSelect">
+<select id="updateStatus" required>
 <option value="In Transit">In Transit</option>
 <option value="Out for Delivery">Out for Delivery</option>
-<option value="On Hold">🔴 On Hold (Review Required)</option>
-<option value="Delivered">🟢 Delivered</option>
+<option value="Delivered">Delivered</option>
+<option value="On Hold">On Hold</option>
 </select>
 </div>
-
-<div class="form-group">
+<div class="admin-form-group">
 <label>New Location Checkpoint Note</label>
-<input type="text" id="adminLogText" placeholder="e.g. Arrived at Sorting Hub, New York">
+<input type="text" id="updateNote" placeholder="e.g. Arrived at Sorting Hub, London" required>
+</div>
+<button type="submit" class="btn-action">Save Changes</button>
+</form>
+</div>
+</div>
 </div>
 
-<button onclick="updateShipmentData()" class="btn-secondary">Save Changes</button>
-</div>
-</div>
-</main>
+<script>
+window.onload = function() {
+if (sessionStorage.getItem('phl_logged_in') === 'true') {
+showDashboard();
+}
+};
 
-<script src="script.js"></script>
+function handleLogin(event) {
+event.preventDefault();
+const user = document.getElementById('username').value.trim();
+const pass = document.getElementById('password').value.trim();
+const errorDiv = document.getElementById('loginError');
+
+if (user === 'admin' && pass === 'admin123') {
+sessionStorage.setItem('phl_logged_in', 'true');
+showDashboard();
+} else {
+errorDiv.textContent = 'Invalid username or password.';
+}
+}
+
+function showDashboard() {
+document.getElementById('loginOverlay').style.display = 'none';
+document.getElementById('dashboardContainer').style.display = 'block';
+loadShipmentDropdown();
+}
+
+function handleLogout() {
+sessionStorage.removeItem('phl_logged_in');
+document.getElementById('dashboardContainer').style.display = 'none';
+document.getElementById('loginOverlay').style.display = 'flex';
+document.getElementById('loginForm').reset();
+}
+
+function loadShipmentDropdown() {
+const select = document.getElementById('updateTrackingSelect');
+select.innerHTML = '<option value="">-- Choose Tracking Number --</option>';
+
+let shipments = JSON.parse(localStorage.getItem('phl_shipments')) || {};
+
+if (!shipments["PHL-948201"]) {
+shipments["PHL-948201"] = {
+status: "In Transit",
+delivery: "July 31, 2026",
+history: [
+{ date: "July 28, 2026 - 14:30", note: "Package received at origin facility - Lagos, Nigeria" },
+{ date: "July 29, 2026 - 09:15", note: "Departed international sorting hub" }
+]
+};
+localStorage.setItem('phl_shipments', JSON.stringify(shipments));
+}
+
+for (let trackingNum in shipments) {
+let opt = document.createElement('option');
+opt.value = trackingNum;
+opt.textContent = trackingNum + ' (' + shipments[trackingNum].status + ')';
+select.appendChild(opt);
+}
+}
+
+function createShipment(event) {
+event.preventDefault();
+const num = document.getElementById('newTrackingNum').value.trim();
+const date = document.getElementById('newDeliveryDate').value.trim();
+const status = document.getElementById('newStatus').value;
+
+let shipments = JSON.parse(localStorage.getItem('phl_shipments')) || {};
+
+shipments[num] = {
+status: status,
+delivery: date,
+history: [
+{ date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) + " - Created", note: "Shipment registered in system." }
+]
+};
+
+localStorage.setItem('phl_shipments', JSON.stringify(shipments));
+alert('Shipment ' + num + ' created successfully!');
+document.getElementById('newTrackingNum').value = '';
+document.getElementById('newDeliveryDate').value = '';
+loadShipmentDropdown();
+}
+
+function updateShipment(event) {
+event.preventDefault();
+const trackingNum = document.getElementById('updateTrackingSelect').value;
+const newStatus = document.getElementById('updateStatus').value;
+const note = document.getElementById('updateNote').value.trim();
+
+let shipments = JSON.parse(localStorage.getItem('phl_shipments')) || {};
+
+if (shipments[trackingNum]) {
+shipments[trackingNum].status = newStatus;
+const currentDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) + " - " + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+shipments[trackingNum].history.unshift({
+date: currentDate,
+note: note
+});
+
+localStorage.setItem('phl_shipments', JSON.stringify(shipments));
+alert('Shipment updated successfully!');
+document.getElementById('updateNote').value = '';
+loadShipmentDropdown();
+} else {
+alert('Selected shipment not found.');
+}
+}
+</script>
 </body>
 </html>
