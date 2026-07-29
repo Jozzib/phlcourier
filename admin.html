@@ -1,269 +1,142 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PHL Express | Admin Portal</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-body { background-color: #0f0f0f; color: #fff; min-height: 100vh; display: flex; flex-direction: column; }
-header { background-color: #1a1a1a; padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #D4AF37; }
-.logo { font-size: 22px; font-weight: 800; color: #fff; letter-spacing: 1px; }
-.logo span { color: #D4AF37; }
-.nav-link { color: #D4AF37; text-decoration: none; font-size: 14px; font-weight: 600; }
-
-/* Login Screen */
-#loginOverlay { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
-.login-card { background: #1a1a1a; padding: 40px; border-radius: 8px; width: 100%; max-width: 400px; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-.login-card h2 { margin-bottom: 20px; font-size: 24px; color: #D4AF37; text-align: center; }
-.form-group { margin-bottom: 20px; }
-.form-group label { display: block; margin-bottom: 8px; font-size: 14px; color: #aaa; }
-.form-group input { width: 100%; padding: 12px; background: #2a2a2a; border: 1px solid #444; border-radius: 4px; color: #fff; font-size: 16px; outline: none; }
-.form-group input:focus { border-color: #D4AF37; }
-.btn-submit { width: 100%; padding: 12px; background-color: #D4AF37; color: #000; border: none; border-radius: 4px; font-weight: 700; font-size: 16px; cursor: pointer; transition: background 0.2s; }
-.btn-submit:hover { background-color: #c19b2e; }
-
-/* Dashboard Container */
-#dashboardContainer { display: none; padding: 40px 5%; flex: 1; max-width: 1200px; margin: 0 auto; width: 100%; }
-.dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 15px; }
-.dashboard-header h1 { font-size: 28px; color: #fff; }
-.btn-logout { background: transparent; border: 1px solid #e74c3c; color: #e74c3c; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600; transition: all 0.2s; }
-.btn-logout:hover { background: #e74c3c; color: #fff; }
-
-.admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-@media (max-width: 768px) { .admin-grid { grid-template-columns: 1fr; } }
-
-.admin-card { background: #1a1a1a; padding: 25px; border-radius: 8px; border: 1px solid #333; }
-.admin-card h3 { font-size: 18px; margin-bottom: 20px; color: #D4AF37; border-bottom: 1px solid #333; padding-bottom: 10px; }
-.admin-form-group { margin-bottom: 15px; }
-.admin-form-group label { display: block; margin-bottom: 5px; font-size: 13px; color: #aaa; }
-.admin-form-group input, .admin-form-group select, .admin-form-group textarea { width: 100%; padding: 10px; background: #2a2a2a; border: 1px solid #444; border-radius: 4px; color: #fff; font-size: 14px; outline: none; }
-.admin-form-group input:focus, .admin-form-group select:focus { border-color: #D4AF37; }
-.btn-action { background-color: #D4AF37; color: #000; border: none; padding: 12px 20px; font-weight: 700; border-radius: 4px; cursor: pointer; width: 100%; transition: background 0.2s; }
-.btn-action:hover { background-color: #c19b2e; }
-.error-msg { color: #e74c3c; font-size: 14px; text-align: center; margin-top: 10px; }
-</style>
-</head>
-<body>
-
-<header>
-<div class="logo">PHL <span>EXPRESS</span></div>
-<a href="index.html" class="nav-link">← Back to Public Site</a>
-</header>
-
-<!-- LOGIN SCREEN -->
-<div id="loginOverlay">
-<div class="login-card">
-<h2>Admin Portal Login</h2>
-<form id="loginForm" onsubmit="handleLogin(event)">
-<div class="form-group">
-<label>Username</label>
-<input type="text" id="username" placeholder="Enter username" required>
-</div>
-<div class="form-group">
-<label>Password</label>
-<input type="password" id="password" placeholder="Enter password" required>
-</div>
-<button type="submit" class="btn-submit">Login to Dashboard</button>
-<div id="loginError" class="error-msg"></div>
-</form>
-</div>
-</div>
-
-<!-- DASHBOARD -->
-<div id="dashboardContainer">
-<div class="dashboard-header">
-<div>
-<h1>Logistics Control Dashboard</h1>
-<p style="color: #aaa; font-size: 14px; margin-top: 5px;">Create shipments, update real-time statuses, and manage deliveries.</p>
-</div>
-<button class="btn-logout" onclick="handleLogout()">Logout</button>
-</div>
-
-<div class="admin-grid">
-<!-- 1. Register New Shipment -->
-<div class="admin-card">
-<h3>1. Register New Shipment</h3>
-<form onsubmit="createShipment(event)">
-<div class="admin-form-group">
-<label>Tracking Number</label>
-<input type="text" id="newTrackingNum" placeholder="e.g. PHL-554433" required>
-</div>
-<div class="admin-form-group">
-<label>Estimated Delivery Date</label>
-<input type="text" id="newDeliveryDate" placeholder="e.g. August 5, 2026" required>
-</div>
-<div class="admin-form-group">
-<label>Initial Status</label>
-<select id="newStatus">
-<option value="In Transit">In Transit</option>
-<option value="Out for Delivery">Out for Delivery</option>
-<option value="Delivered">Delivered</option>
-<option value="On Hold">On Hold</option>
-</select>
-</div>
-<button type="submit" class="btn-action">Create Shipment</button>
-</form>
-</div>
-
-<!-- 2. Update Status & Location -->
-<div class="admin-card">
-<h3>2. Update Status & Checkpoints</h3>
-<form onsubmit="updateShipment(event)">
-<div class="admin-form-group">
-<label>Select Shipment</label>
-<select id="updateTrackingSelect" required>
-<option value="">-- Choose Tracking Number --</option>
-</select>
-</div>
-<div class="admin-form-group">
-<label>Current Status</label>
-<select id="updateStatus" required>
-<option value="In Transit">In Transit</option>
-<option value="Out for Delivery">Out for Delivery</option>
-<option value="Delivered">Delivered</option>
-<option value="On Hold">On Hold</option>
-</select>
-</div>
-<div class="admin-form-group">
-<label>New Location Checkpoint Note</label>
-<input type="text" id="updateNote" placeholder="e.g. Arrived at Sorting Hub, London" required>
-</div>
-<button type="submit" class="btn-action">Save Changes</button>
-</form>
-</div>
-</div>
-</div>
-
+<title>Admin Portal | PHL Express</title>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
 <script>
-let inactivityTimer;
-const INACTIVITY_LIMIT = 2 * 60 * 1000; // 2 minutes in milliseconds
-
-window.onload = function() {
-if (sessionStorage.getItem('phl_logged_in') === 'true') {
-showDashboard();
-}
-
-window.addEventListener('mousemove', resetInactivityTimer);
-window.addEventListener('keypress', resetInactivityTimer);
-window.addEventListener('click', resetInactivityTimer);
-window.addEventListener('scroll', resetInactivityTimer);
-};
-
-function resetInactivityTimer() {
-if (sessionStorage.getItem('phl_logged_in') === 'true') {
-clearTimeout(inactivityTimer);
-inactivityTimer = setTimeout(() => {
-handleLogout();
-alert('Session expired due to 2 minutes of inactivity.');
-}, INACTIVITY_LIMIT);
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+navy: { 900: '#0F172A', 950: '#090D16' },
+blue: { 600: '#2563EB', 700: '#1D4ED8' }
 }
 }
+}
+}
+</script>
+</head>
+<body class="bg-slate-100 font-sans text-slate-600 antialiased min-h-screen flex flex-col">
 
-function handleLogin(event) {
-event.preventDefault();
-const user = document.getElementById('username').value.trim();
-const pass = document.getElementById('password').value.trim();
-const errorDiv = document.getElementById('loginError');
+<!-- Top Admin Bar -->
+<nav class="bg-navy-950 border-b border-slate-800 text-white h-16 px-6 flex items-center justify-between">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-sm">P</div>
+<span class="font-bold tracking-tight">PHL Express <span class="text-blue-500 font-normal text-xs ml-2 px-2 py-0.5 bg-blue-500/10 rounded-full border border-blue-500/20">Admin Panel</span></span>
+</div>
+<div class="flex items-center space-x-4">
+<span class="text-xs text-slate-400">Logged in as Administrator</span>
+<a href="index.html" class="text-xs text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-lg transition">View Live Site</a>
+</div>
+</nav>
 
-if (user === 'admin' && pass === 'admin123') {
-sessionStorage.setItem('phl_logged_in', 'true');
-showDashboard();
+<!-- Main Dashboard Layout -->
+<div class="flex-grow max-w-7xl w-full mx-auto p-6 lg:p-10 grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+<!-- Sidebar Navigation -->
+<aside class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm h-fit space-y-2">
+<h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 px-3">Management</h3>
+<button onclick="switchTab('shipments')" id="btn-shipments" class="w-full text-left px-4 py-3 rounded-xl font-medium text-sm transition bg-blue-600 text-white shadow-sm">Manage Shipments</button>
+<button onclick="switchTab('messages')" id="btn-messages" class="w-full text-left px-4 py-3 rounded-xl font-medium text-sm transition text-slate-600 hover:bg-slate-50">Contact Inquiries</button>
+</aside>
+
+<!-- Dynamic Content Area -->
+<main class="lg:col-span-3 space-y-8">
+
+<!-- Shipments Tab -->
+<section id="tab-shipments" class="bg-white p-6 lg:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+<div>
+<h2 class="text-xl font-bold text-navy-900">Active Shipments</h2>
+<p class="text-xs text-slate-500 mt-1">Add new tracking numbers or update delivery status.</p>
+</div>
+<button class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition shadow-sm">+ Add New Shipment</button>
+</div>
+
+<!-- Shipment Table -->
+<div class="overflow-x-auto border border-slate-200 rounded-xl">
+<table class="w-full text-left border-collapse text-sm">
+<thead class="bg-slate-50 text-slate-700 border-b border-slate-200 text-xs uppercase tracking-wider">
+<tr>
+<th class="p-4 font-semibold">Tracking No.</th>
+<th class="p-4 font-semibold">Recipient</th>
+<th class="p-4 font-semibold">Status</th>
+<th class="p-4 font-semibold">Destination</th>
+<th class="p-4 font-semibold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 text-slate-600">
+<tr>
+<td class="p-4 font-mono font-medium text-navy-900">PHL-98421</td>
+<td class="p-4">Acme Corp Ltd</td>
+<td class="p-4"><span class="bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-full text-xs font-semibold border border-emerald-200">In Transit</span></td>
+<td class="p-4">London, UK</td>
+<td class="p-4 text-right">
+<button class="text-blue-600 hover:underline font-medium text-xs mr-3">Edit</button>
+<button class="text-rose-600 hover:underline font-medium text-xs">Delete</button>
+</td>
+</tr>
+<tr>
+<td class="p-4 font-mono font-medium text-navy-900">PHL-10924</td>
+<td class="p-4">Vertex Global</td>
+<td class="p-4"><span class="bg-blue-50 text-blue-600 px-2.5 py-1 rounded-full text-xs font-semibold border border-blue-200">Delivered</span></td>
+<td class="p-4">New York, USA</td>
+<td class="p-4 text-right">
+<button class="text-blue-600 hover:underline font-medium text-xs mr-3">Edit</button>
+<button class="text-rose-600 hover:underline font-medium text-xs">Delete</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- Contact Messages Tab (Hidden by default) -->
+<section id="tab-messages" class="bg-white p-6 lg:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6 hidden">
+<div>
+<h2 class="text-xl font-bold text-navy-900">Client Contact Inquiries</h2>
+<p class="text-xs text-slate-500 mt-1">Messages submitted through the contact page form.</p>
+</div>
+
+<div class="space-y-4">
+<div class="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+<div>
+<div class="flex items-center space-x-2 mb-1">
+<span class="font-bold text-navy-900 text-sm">Jonathan Davis</span>
+<span class="text-xs text-slate-400">&bull; 2 hours ago</span>
+</div>
+<p class="text-xs text-slate-500 mb-2">jonathan@vertexcorp.com</p>
+<p class="text-sm text-slate-700">"Looking to set up a dedicated trans-Atlantic freight route for our hardware shipments next month."</p>
+</div>
+<button class="bg-white border border-slate-300 hover:bg-slate-100 text-navy-900 font-semibold px-4 py-2 rounded-lg text-xs transition shrink-0">Reply</button>
+</div>
+</div>
+</section>
+
+</main>
+</div>
+
+<!-- Script to toggle tabs -->
+<script>
+function switchTab(tabName) {
+const shipmentsTab = document.getElementById('tab-shipments');
+const messagesTab = document.getElementById('tab-messages');
+const btnShipments = document.getElementById('btn-shipments');
+const btnMessages = document.getElementById('btn-messages');
+
+if (tabName === 'shipments') {
+shipmentsTab.classList.remove('hidden');
+messagesTab.classList.add('hidden');
+btnShipments.className = "w-full text-left px-4 py-3 rounded-xl font-medium text-sm transition bg-blue-600 text-white shadow-sm";
+btnMessages.className = "w-full text-left px-4 py-3 rounded-xl font-medium text-sm transition text-slate-600 hover:bg-slate-50";
 } else {
-errorDiv.textContent = 'Invalid username or password.';
-}
-}
-
-function showDashboard() {
-document.getElementById('loginOverlay').style.display = 'none';
-document.getElementById('dashboardContainer').style.display = 'block';
-loadShipmentDropdown();
-resetInactivityTimer();
-}
-
-function handleLogout() {
-clearTimeout(inactivityTimer);
-sessionStorage.removeItem('phl_logged_in');
-document.getElementById('dashboardContainer').style.display = 'none';
-document.getElementById('loginOverlay').style.display = 'flex';
-document.getElementById('loginForm').reset();
-}
-
-function loadShipmentDropdown() {
-const select = document.getElementById('updateTrackingSelect');
-select.innerHTML = '<option value="">-- Choose Tracking Number --</option>';
-
-let shipments = JSON.parse(localStorage.getItem('phl_shipments')) || {};
-
-if (!shipments["PHL-948201"]) {
-shipments["PHL-948201"] = {
-status: "In Transit",
-delivery: "July 31, 2026",
-history: [
-{ date: "July 28, 2026 - 14:30", note: "Package received at origin facility - Lagos, Nigeria" },
-{ date: "July 29, 2026 - 09:15", note: "Departed international sorting hub" }
-]
-};
-localStorage.setItem('phl_shipments', JSON.stringify(shipments));
-}
-
-for (let trackingNum in shipments) {
-let opt = document.createElement('option');
-opt.value = trackingNum;
-opt.textContent = trackingNum + ' (' + shipments[trackingNum].status + ')';
-select.appendChild(opt);
-}
-}
-
-function createShipment(event) {
-event.preventDefault();
-resetInactivityTimer();
-const num = document.getElementById('newTrackingNum').value.trim();
-const date = document.getElementById('newDeliveryDate').value.trim();
-const status = document.getElementById('newStatus').value;
-
-let shipments = JSON.parse(localStorage.getItem('phl_shipments')) || {};
-
-shipments[num] = {
-status: status,
-delivery: date,
-history: [
-{ date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) + " - Created", note: "Shipment registered in system." }
-]
-};
-
-localStorage.setItem('phl_shipments', JSON.stringify(shipments));
-alert('Shipment ' + num + ' created successfully!');
-document.getElementById('newTrackingNum').value = '';
-document.getElementById('newDeliveryDate').value = '';
-loadShipmentDropdown();
-}
-
-function updateShipment(event) {
-event.preventDefault();
-resetInactivityTimer();
-const trackingNum = document.getElementById('updateTrackingSelect').value;
-const newStatus = document.getElementById('updateStatus').value;
-const note = document.getElementById('updateNote').value.trim();
-
-let shipments = JSON.parse(localStorage.getItem('phl_shipments')) || {};
-
-if (shipments[trackingNum]) {
-shipments[trackingNum].status = newStatus;
-const currentDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) + " - " + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-shipments[trackingNum].history.unshift({
-date: currentDate,
-note: note
-});
-
-localStorage.setItem('phl_shipments', JSON.stringify(shipments));
-alert('Shipment updated successfully!');
-document.getElementById('updateNote').value = '';
-loadShipmentDropdown();
-} else {
-alert('Selected shipment not found.');
+messagesTab.classList.remove('hidden');
+shipmentsTab.classList.add('hidden');
+btnMessages.className = "w-full text-left px-4 py-3 rounded-xl font-medium text-sm transition bg-blue-600 text-white shadow-sm";
+btnShipments.className = "w-full text-left px-4 py-3 rounded-xl font-medium text-sm transition text-slate-600 hover:bg-slate-50";
 }
 }
 </script>
