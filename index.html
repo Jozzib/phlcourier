@@ -3,28 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PHL Courier | Global Logistics & Shipment Tracking</title>
+<title>PHL Express | Global Logistics & Shipping Partner</title>
 <link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 <header>
-<div class="logo">PHL <span>COURIER</span></div>
+<div class="logo">PHL <span>EXPRESS</span></div>
 <nav>
-<a href="#trackingSection" class="active-nav">Tracking</a>
-<a href="#aboutSection">About Us</a>
-<a href="#servicesSection">Services</a>
+<a href="#trackingSection">Home</a>
+<a href="#processSection">How It Works</a>
+<a href="#benefitsSection">Services</a>
+<a href="admin.html" target="_blank" style="color: #ffcc00;">Admin Portal ↗</a>
 </nav>
 </header>
 
 <main>
-<!-- TRACKING HERO SECTION -->
+<!-- HERO & TRACKING SECTION -->
 <section id="trackingSection" class="hero">
-<h1>Global Logistics & Express Delivery</h1>
-<p>Track your cargo, packages, and freight in real-time across international borders.</p>
+<div class="hero-content">
+<h1>Ship Internationally with PHL Express</h1>
+<p>Looking for a reliable shipping partner? Enter your tracking number below for real-time status updates.</p>
 <div class="tracking-box">
 <input type="text" id="trackingInput" placeholder="Enter tracking number (e.g. PHL-948201)">
 <button onclick="trackShipment()">Track Package</button>
+</div>
 </div>
 </section>
 
@@ -53,25 +56,51 @@
 </div>
 </section>
 
-<!-- ABOUT US SECTION -->
-<section id="aboutSection" class="about-container">
-<div class="card">
-<h2>About PHL Courier</h2>
-<p style="margin-top: 10px; color: #475569; line-height: 1.6;">
-Founded with a commitment to speed, security, and reliability, <strong>PHL Courier</strong> is a premier global logistics provider. We specialize in secure freight forwarding, express parcel delivery, and comprehensive supply chain solutions for private and corporate clients worldwide.
-</p>
-<div class="features-grid" style="margin-top: 25px;">
-<div class="feature-box">
-<h4>🌍 Global Reach</h4>
-<p>Seamless international and domestic shipping networks.</p>
+<!-- 3-STEP PROCESS SECTION -->
+<section id="processSection" class="process-section">
+<h2>How It Works</h2>
+<div class="process-grid">
+<div class="process-card">
+<div class="step-num">1</div>
+<h3>Enquire With Us Today</h3>
+<p>Fill out our inquiry form or contact our team to discuss your international shipping and freight needs.</p>
 </div>
-<div class="feature-box">
-<h4>🔒 Secure Handling</h4>
-<p>Advanced tracking and secure warehousing protocols.</p>
+<div class="process-card">
+<div class="step-num">2</div>
+<h3>Get Setup on PHL Network</h3>
+<p>Benefit from our full global logistics network, spanning international transit hubs and secure express channels.</p>
 </div>
-<div class="feature-box">
-<h4>⚡ Real-Time Tracking</h4>
-<p>Instant status updates and checkpoint history logs.</p>
+<div class="process-card">
+<div class="step-num">3</div>
+<h3>Deliver Worldwide</h3>
+<p>Provide your customers with reliable tracking, express transit times, and secure door-to-door delivery.</p>
+</div>
+</div>
+</section>
+
+<!-- BENEFITS SECTION -->
+<section id="benefitsSection" class="benefits-section">
+<h2>Looking for a reliable shipping partner? PHL Express offers these benefits:</h2>
+<div class="benefits-grid">
+<div class="benefit-item">
+<div class="benefit-icon">✈️</div>
+<div>
+<h3>Easy International Shipping</h3>
+<p>A wide range of services and door-to-door shipping options to solve your international export challenges, covering global destinations.</p>
+</div>
+</div>
+<div class="benefit-item">
+<div class="benefit-icon">📦</div>
+<div>
+<h3>Flexible Delivery Options</h3>
+<p>Manage shipments seamlessly with status updates, hold controls, and precise location checkpoints to keep clients informed.</p>
+</div>
+</div>
+<div class="benefit-item">
+<div class="benefit-icon">⚖️</div>
+<div>
+<h3>Preferential Business Rates</h3>
+<p>With rates adapted to your shipping volume, it is pricing that fits your business — not the other way around.</p>
 </div>
 </div>
 </div>
@@ -79,7 +108,7 @@ Founded with a commitment to speed, security, and reliability, <strong>PHL Couri
 </main>
 
 <footer>
-<p>&copy; 2026 PHL Courier. All rights reserved. | Secure Global Logistics</p>
+<p>&copy; 2026 PHL Express Courier. All rights reserved. | Global Logistics & Supply Chain Solutions</p>
 </footer>
 
 <script src="script.js"></script>
