@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Portal | PHL Express</title>
-<!-- Tailwind CSS CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
 tailwind.config = {
@@ -21,123 +20,227 @@ blue: { 600: '#2563EB', 700: '#1D4ED8' }
 </head>
 <body class="bg-slate-100 font-sans text-slate-600 antialiased min-h-screen flex flex-col">
 
-<!-- Top Admin Bar -->
+<!-- LOGIN SCREEN (Shown by default if not logged in) -->
+<div id="login-screen" class="fixed inset-0 bg-navy-950 z-50 flex items-center justify-center p-6">
+<div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full border border-slate-200">
+<div class="text-center mb-8">
+<div class="w-12 h-12 rounded-xl bg-blue-600 text-white font-bold text-xl flex items-center justify-center mx-auto mb-3 shadow-lg shadow-blue-600/30">P</div>
+<h2 class="text-2xl font-bold text-navy-900">Admin Portal Login</h2>
+<p class="text-xs text-slate-500 mt-1">Enter your credentials to manage shipments</p>
+</div>
+<form onsubmit="handleLogin(event)" class="space-y-4">
+<div>
+<label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Username</label>
+<input type="text" id="username" required placeholder="admin" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-600">
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Password</label>
+<input type="password" id="password" required placeholder="••••••••" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-600">
+</div>
+<p id="login-error" class="text-xs text-rose-600 font-medium hidden">Invalid username or password. (Default: admin / admin123)</p>
+<button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl text-sm transition shadow-lg shadow-blue-600/20">
+Secure Login
+</button>
+</form>
+</div>
+</div>
+
+<!-- ADMIN DASHBOARD (Hidden until logged in) -->
+<div id="admin-dashboard" class="hidden flex-grow flex flex-col">
+<!-- Top Navigation -->
 <nav class="bg-navy-950 border-b border-slate-800 text-white h-16 px-6 flex items-center justify-between">
 <div class="flex items-center space-x-3">
 <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-sm">P</div>
-<span class="font-bold tracking-tight">PHL Express <span class="text-blue-500 font-normal text-xs ml-2 px-2 py-0.5 bg-blue-500/10 rounded-full border border-blue-500/20">Admin Panel</span></span>
+<span class="font-bold tracking-tight">PHL Express <span class="text-blue-500 font-normal text-xs ml-2 px-2 py-0.5 bg-blue-500/10 rounded-full border border-blue-500/20">Secure Admin</span></span>
 </div>
 <div class="flex items-center space-x-4">
-<span class="text-xs text-slate-400">Logged in as Administrator</span>
 <a href="index.html" class="text-xs text-slate-300 hover:text-white bg-slate-800 px-3 py-1.5 rounded-lg transition">View Live Site</a>
+<button onclick="handleLogout()" class="text-xs text-rose-400 hover:text-white bg-rose-500/10 border border-rose-500/20 px-3 py-1.5 rounded-lg transition">Logout</button>
 </div>
 </nav>
 
-<!-- Main Dashboard Layout -->
-<div class="flex-grow max-w-7xl w-full mx-auto p-6 lg:p-10 grid grid-cols-1 lg:grid-cols-4 gap-8">
+<!-- Main Layout -->
+<div class="flex-grow max-w-7xl w-full mx-auto p-6 lg:p-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-<!-- Sidebar Navigation -->
-<aside class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm h-fit space-y-2">
-<h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 px-3">Management</h3>
-<button onclick="switchTab('shipments')" id="btn-shipments" class="w-full text-left px-4 py-3 rounded-xl font-medium text-sm transition bg-blue-600 text-white shadow-sm">Manage Shipments</button>
-<button onclick="switchTab('messages')" id="btn-messages" class="w-full text-left px-4 py-3 rounded-xl font-medium text-sm transition text-slate-600 hover:bg-slate-50">Contact Inquiries</button>
-</aside>
-
-<!-- Dynamic Content Area -->
-<main class="lg:col-span-3 space-y-8">
-
-<!-- Shipments Tab -->
-<section id="tab-shipments" class="bg-white p-6 lg:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
-<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+<!-- Add Shipment Form Column -->
+<div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm h-fit space-y-6">
 <div>
-<h2 class="text-xl font-bold text-navy-900">Active Shipments</h2>
-<p class="text-xs text-slate-500 mt-1">Add new tracking numbers or update delivery status.</p>
+<h2 class="text-lg font-bold text-navy-900">Add New Shipment</h2>
+<p class="text-xs text-slate-500 mt-1">Create a tracking entry for customer lookup.</p>
 </div>
-<button class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition shadow-sm">+ Add New Shipment</button>
+<form onsubmit="addShipment(event)" class="space-y-4">
+<div>
+<label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Tracking Number</label>
+<input type="text" id="track-no" required placeholder="PHL-99882" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-blue-600">
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Recipient Name</label>
+<input type="text" id="recipient" required placeholder="Acme Corp" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-blue-600">
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Destination</label>
+<input type="text" id="destination" required placeholder="London, UK" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-blue-600">
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Delivery Status</label>
+<select id="status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-blue-600">
+<option value="In Transit">In Transit</option>
+<option value="Out for Delivery">Out for Delivery</option>
+<option value="Delivered">Delivered</option>
+<option value="Processing">Processing</option>
+</select>
+</div>
+<button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl text-sm transition shadow-sm">
+Save Shipment Entry
+</button>
+</form>
 </div>
 
-<!-- Shipment Table -->
+<!-- Shipments Management Table Column -->
+<div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+<div>
+<h2 class="text-lg font-bold text-navy-900">Active Shipments Database</h2>
+<p class="text-xs text-slate-500 mt-1">Manage, update status, or remove active courier packages.</p>
+</div>
+
 <div class="overflow-x-auto border border-slate-200 rounded-xl">
 <table class="w-full text-left border-collapse text-sm">
 <thead class="bg-slate-50 text-slate-700 border-b border-slate-200 text-xs uppercase tracking-wider">
 <tr>
-<th class="p-4 font-semibold">Tracking No.</th>
-<th class="p-4 font-semibold">Recipient</th>
-<th class="p-4 font-semibold">Status</th>
-<th class="p-4 font-semibold">Destination</th>
-<th class="p-4 font-semibold text-right">Actions</th>
+<th class="p-3 font-semibold">Tracking No.</th>
+<th class="p-3 font-semibold">Recipient</th>
+<th class="p-3 font-semibold">Destination</th>
+<th class="p-3 font-semibold">Status</th>
+<th class="p-3 font-semibold text-right">Actions</th>
 </tr>
 </thead>
-<tbody class="divide-y divide-slate-200 text-slate-600">
-<tr>
-<td class="p-4 font-mono font-medium text-navy-900">PHL-98421</td>
-<td class="p-4">Acme Corp Ltd</td>
-<td class="p-4"><span class="bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-full text-xs font-semibold border border-emerald-200">In Transit</span></td>
-<td class="p-4">London, UK</td>
-<td class="p-4 text-right">
-<button class="text-blue-600 hover:underline font-medium text-xs mr-3">Edit</button>
-<button class="text-rose-600 hover:underline font-medium text-xs">Delete</button>
-</td>
-</tr>
-<tr>
-<td class="p-4 font-mono font-medium text-navy-900">PHL-10924</td>
-<td class="p-4">Vertex Global</td>
-<td class="p-4"><span class="bg-blue-50 text-blue-600 px-2.5 py-1 rounded-full text-xs font-semibold border border-blue-200">Delivered</span></td>
-<td class="p-4">New York, USA</td>
-<td class="p-4 text-right">
-<button class="text-blue-600 hover:underline font-medium text-xs mr-3">Edit</button>
-<button class="text-rose-600 hover:underline font-medium text-xs">Delete</button>
-</td>
-</tr>
+<tbody id="shipment-table-body" class="divide-y divide-slate-200 text-slate-600 text-xs">
+<!-- Populated dynamically via JavaScript -->
 </tbody>
 </table>
 </div>
-</section>
-
-<!-- Contact Messages Tab (Hidden by default) -->
-<section id="tab-messages" class="bg-white p-6 lg:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6 hidden">
-<div>
-<h2 class="text-xl font-bold text-navy-900">Client Contact Inquiries</h2>
-<p class="text-xs text-slate-500 mt-1">Messages submitted through the contact page form.</p>
 </div>
 
-<div class="space-y-4">
-<div class="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-<div>
-<div class="flex items-center space-x-2 mb-1">
-<span class="font-bold text-navy-900 text-sm">Jonathan Davis</span>
-<span class="text-xs text-slate-400">&bull; 2 hours ago</span>
 </div>
-<p class="text-xs text-slate-500 mb-2">jonathan@vertexcorp.com</p>
-<p class="text-sm text-slate-700">"Looking to set up a dedicated trans-Atlantic freight route for our hardware shipments next month."</p>
-</div>
-<button class="bg-white border border-slate-300 hover:bg-slate-100 text-navy-900 font-semibold px-4 py-2 rounded-lg text-xs transition shrink-0">Reply</button>
-</div>
-</div>
-</section>
-
-</main>
 </div>
 
-<!-- Script to toggle tabs -->
+<!-- Admin Script Logic -->
 <script>
-function switchTab(tabName) {
-const shipmentsTab = document.getElementById('tab-shipments');
-const messagesTab = document.getElementById('tab-messages');
-const btnShipments = document.getElementById('btn-shipments');
-const btnMessages = document.getElementById('btn-messages');
+// Default login credentials
+const ADMIN_USER = "admin";
+const ADMIN_PASS = "admin123";
 
-if (tabName === 'shipments') {
-shipmentsTab.classList.remove('hidden');
-messagesTab.classList.add('hidden');
-btnShipments.className = "w-full text-left px-4 py-3 rounded-xl font-medium text-sm transition bg-blue-600 text-white shadow-sm";
-btnMessages.className = "w-full text-left px-4 py-3 rounded-xl font-medium text-sm transition text-slate-600 hover:bg-slate-50";
-} else {
-messagesTab.classList.remove('hidden');
-shipmentsTab.classList.add('hidden');
-btnMessages.className = "w-full text-left px-4 py-3 rounded-xl font-medium text-sm transition bg-blue-600 text-white shadow-sm";
-btnShipments.className = "w-full text-left px-4 py-3 rounded-xl font-medium text-sm transition text-slate-600 hover:bg-slate-50";
+// Check if already logged in during session
+window.onload = function() {
+if (localStorage.getItem("phl_logged_in") === "true") {
+showDashboard();
 }
+}
+
+function handleLogin(e) {
+e.preventDefault();
+const u = document.getElementById("username").value;
+const p = document.getElementById("password").value;
+
+if (u === ADMIN_USER && p === ADMIN_PASS) {
+localStorage.setItem("phl_logged_in", "true");
+showDashboard();
+} else {
+document.getElementById("login-error").classList.remove("hidden");
+}
+}
+
+function handleLogout() {
+localStorage.removeItem("phl_logged_in");
+document.getElementById("admin-dashboard").classList.add("hidden");
+document.getElementById("login-screen").classList.remove("hidden");
+}
+
+function showDashboard() {
+document.getElementById("login-screen").classList.add("hidden");
+document.getElementById("admin-dashboard").classList.remove("hidden");
+loadShipmentsTable();
+}
+
+// Shipment Management Functions
+function getShipments() {
+let shipments = localStorage.getItem("phl_shipments");
+if (!shipments) {
+// Default initial sample shipment
+shipments = JSON.stringify([
+{ trackingNo: "PHL-98421", recipient: "Acme Corp Ltd", destination: "London, UK", status: "In Transit" }
+]);
+localStorage.setItem("phl_shipments", shipments);
+}
+return JSON.parse(shipments);
+}
+
+function addShipment(e) {
+e.preventDefault();
+const trackingNo = document.getElementById("track-no").value.trim();
+const recipient = document.getElementById("recipient").value.trim();
+const destination = document.getElementById("destination").value.trim();
+const status = document.getElementById("status").value;
+
+let shipments = getShipments();
+shipments.push({ trackingNo, recipient, destination, status });
+localStorage.setItem("phl_shipments", JSON.stringify(shipments));
+
+document.getElementById("track-no").value = "";
+document.getElementById("recipient").value = "";
+document.getElementById("destination").value = "";
+loadShipmentsTable();
+alert("Shipment added successfully!");
+}
+
+function deleteShipment(index) {
+let shipments = getShipments();
+shipments.splice(index, 1);
+localStorage.setItem("phl_shipments", JSON.stringify(shipments));
+loadShipmentsTable();
+}
+
+function updateStatus(index, newStatus) {
+let shipments = getShipments();
+shipments[index].status = newStatus;
+localStorage.setItem("phl_shipments", JSON.stringify(shipments));
+loadShipmentsTable();
+}
+
+function loadShipmentsTable() {
+const shipments = getShipments();
+const tbody = document.getElementById("shipment-table-body");
+tbody.innerHTML = "";
+
+if (shipments.length === 0) {
+tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">No shipments found in database.</td></tr>`;
+return;
+}
+
+shipments.forEach((s, idx) => {
+let badgeColor = "bg-blue-50 text-blue-600 border-blue-200";
+if (s.status === "Delivered") badgeColor = "bg-emerald-50 text-emerald-600 border-emerald-200";
+if (s.status === "Out for Delivery") badgeColor = "bg-amber-50 text-amber-600 border-amber-200";
+
+tbody.innerHTML += `
+<tr>
+<td class="p-3 font-mono font-medium text-navy-900">${s.trackingNo}</td>
+<td class="p-3">${s.recipient}</td>
+<td class="p-3">${s.destination}</td>
+<td class="p-3">
+<select onchange="updateStatus(${idx}, this.value)" class="bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs font-semibold ${badgeColor}">
+<option value="In Transit" ${s.status === "In Transit" ? "selected" : ""}>In Transit</option>
+<option value="Out for Delivery" ${s.status === "Out for Delivery" ? "selected" : ""}>Out for Delivery</option>
+<option value="Delivered" ${s.status === "Delivered" ? "selected" : ""}>Delivered</option>
+<option value="Processing" ${s.status === "Processing" ? "selected" : ""}>Processing</option>
+</select>
+</td>
+<td class="p-3 text-right">
+<button onclick="deleteShipment(${idx})" class="text-rose-600 hover:underline font-medium">Delete</button>
+</td>
+</tr>
+`;
+});
 }
 </script>
 </body>
