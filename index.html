@@ -7,41 +7,102 @@
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* Professional layout styles */
+/* Premium Executive Styling */
+.hero {
+background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.75)), url('png.png');
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+padding: 100px 5% 80px 5%;
+color: #ffffff;
+text-align: left;
+}
+.hero-content {
+max-width: 800px;
+}
+.hero h1 {
+font-size: 42px;
+font-weight: 800;
+margin-bottom: 15px;
+line-height: 1.2;
+}
+.hero p {
+font-size: 18px;
+color: #ddd;
+margin-bottom: 30px;
+}
+.tracking-box {
+background: rgba(255, 255, 255, 0.1);
+backdrop-filter: blur(10px);
+padding: 20px;
+border-radius: 8px;
+border: 1px solid rgba(255, 255, 255, 0.2);
+display: flex;
+gap: 10px;
+max-width: 700px;
+}
+.tracking-box input {
+flex: 1;
+padding: 14px 16px;
+border: none;
+border-radius: 4px;
+font-size: 16px;
+outline: none;
+}
+.tracking-box button {
+background-color: #D4AF37;
+color: #000;
+border: none;
+padding: 0 24px;
+font-weight: 700;
+border-radius: 4px;
+cursor: pointer;
+transition: background 0.2s;
+}
+.tracking-box button:hover {
+background-color: #c19b2e;
+}
+
+/* Trust Stats Bar */
+.trust-bar {
+background-color: #111;
+color: #fff;
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+gap: 20px;
+padding: 30px 5%;
+border-bottom: 3px solid #D4AF37;
+text-align: center;
+}
+.trust-item h3 {
+color: #D4AF37;
+font-size: 24px;
+margin-bottom: 5px;
+}
+.trust-item p {
+color: #aaa;
+font-size: 14px;
+margin: 0;
+}
+
+/* Service Banner */
 .service-banner {
 background-color: #fff3cd;
 border-left: 4px solid #D4AF37;
 padding: 12px 5%;
-margin: 0;
 font-size: 14px;
 color: #333;
 display: flex;
 justify-content: space-between;
 align-items: center;
 }
-.hero-actions {
-display: flex;
-gap: 10px;
-margin-top: 15px;
-}
-.btn-secondary-hero {
-background-color: transparent;
-color: #fff;
-border: 2px solid #fff;
-padding: 12px 24px;
-font-weight: 600;
-border-radius: 4px;
-cursor: pointer;
-transition: background 0.2s;
-}
-.btn-secondary-hero:hover {
-background-color: rgba(255,255,255,0.1);
-}
+
+/* Enterprise Footer */
 .footer-grid {
 display: grid;
 grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 gap: 30px;
-padding: 40px 5%;
+padding: 50px 5%;
 background-color: #1a1a1a;
 color: #ccc;
 font-size: 14px;
@@ -73,7 +134,7 @@ color: #D4AF37;
 background-color: #111;
 color: #777;
 text-align: center;
-padding: 15px;
+padding: 20px;
 font-size: 13px;
 border-top: 1px solid #333;
 }
@@ -93,25 +154,42 @@ border-top: 1px solid #333;
 
 <!-- SERVICE UPDATE BULLETIN -->
 <div class="service-banner">
-<span><strong>Service Update:</strong> Explore our enhanced global air freight and express customs clearance options for 2026.</span>
-<a href="#benefitsSection" style="color: #b8860b; font-weight: bold; text-decoration: none;">Learn More →</a>
+<span><strong>Global Notice:</strong> Experience our upgraded air freight networks and high-speed express customs clearance channels.</span>
+<a href="#benefitsSection" style="color: #b8860b; font-weight: bold; text-decoration: none;">Explore Services →</a>
 </div>
 
 <main>
 <!-- HERO & TRACKING SECTION -->
 <section id="trackingSection" class="hero">
 <div class="hero-content">
-<h1>Ship Internationally with PHL Express</h1>
-<p>Looking for a reliable shipping partner? Enter your tracking number below for real-time status updates.</p>
+<h1>Global Logistics & Express Delivery</h1>
+<p>Your trusted partner for secure international freight, corporate shipping, and real-time package tracking.</p>
 <div class="tracking-box">
-<input type="text" id="trackingInput" placeholder="Enter tracking number(s) (e.g. PHL-948201)">
+<input type="text" id="trackingInput" placeholder="Enter tracking number (e.g. PHL-948201)">
 <button onclick="trackShipment()">Track Package</button>
-</div>
-<div class="hero-actions">
-<button class="btn-secondary-hero" onclick="location.href='#contactSection';">Get an Instant Quote</button>
 </div>
 </div>
 </section>
+
+<!-- TRUST & STATS BAR -->
+<div class="trust-bar">
+<div class="trust-item">
+<h3>220+</h3>
+<p>Countries & Territories Covered</p>
+</div>
+<div class="trust-item">
+<h3>99.8%</h3>
+<p>On-Time Secure Deliveries</p>
+</div>
+<div class="trust-item">
+<h3>24/7</h3>
+<p>Customer & Freight Support</p>
+</div>
+<div class="trust-item">
+<h3>100%</h3>
+<p>Real-Time Tracking Control</p>
+</div>
+</div>
 
 <!-- TRACKING RESULT SECTION -->
 <section id="resultSection" class="result-section hidden">
@@ -145,44 +223,44 @@ border-top: 1px solid #333;
 <div class="process-card">
 <div class="step-num">1</div>
 <h3>Enquire With Us Today</h3>
-<p>Fill out our inquiry form or contact our team to discuss your international shipping and freight needs.</p>
+<p>Fill out our inquiry form or connect with our logistics team to discuss your global cargo requirements.</p>
 </div>
 <div class="process-card">
 <div class="step-num">2</div>
-<h3>Get Setup on PHL Network</h3>
-<p>Benefit from our full global logistics network, spanning international transit hubs and secure express channels.</p>
+<h3>Setup on PHL Network</h3>
+<p>Leverage our advanced infrastructure spanning secure air corridors, hubs, and distribution networks.</p>
 </div>
 <div class="process-card">
 <div class="step-num">3</div>
 <h3>Deliver Worldwide</h3>
-<p>Provide your customers with reliable tracking, express transit times, and secure door-to-door delivery.</p>
+<p>Provide your clients with exact milestone tracking, fast transit times, and guaranteed safe arrival.</p>
 </div>
 </div>
 </section>
 
 <!-- BENEFITS / SERVICES SECTION -->
 <section id="benefitsSection" class="benefits-section">
-<h2>Looking for a reliable shipping partner? PHL Express offers these benefits:</h2>
+<h2>Enterprise Solutions & Services</h2>
 <div class="benefits-grid">
 <div class="benefit-item">
 <div class="benefit-icon">✈️</div>
 <div>
 <h3>Express Document & Package</h3>
-<p>A wide range of door-to-door shipping options to solve your international export challenges, covering global destinations.</p>
+<p>Fast, reliable door-to-door courier services designed for time-sensitive global business shipments.</p>
 </div>
 </div>
 <div class="benefit-item">
 <div class="benefit-icon">🚢</div>
 <div>
 <h3>Pallets, Containers & Cargo</h3>
-<p>Comprehensive air and ocean freight solutions designed for business supply chains and heavy commercial volume.</p>
+<p>Heavy air and ocean freight solutions engineered for high-volume corporate supply chains.</p>
 </div>
 </div>
 <div class="benefit-item">
 <div class="benefit-icon">⚖️</div>
 <div>
 <h3>Preferential Business Rates</h3>
-<p>With rates adapted to your shipping volume, it is pricing that fits your business — not the other way around.</p>
+<p>Custom pricing models tailored specifically to your company's export volume and frequency.</p>
 </div>
 </div>
 </div>
@@ -192,7 +270,7 @@ border-top: 1px solid #333;
 <section id="contactSection" class="contact-section">
 <div class="contact-container">
 <h2>Contact Our Support Team</h2>
-<p>Have questions about your shipment, customs clearance, or corporate freight rates? Get in touch with us.</p>
+<p>Have questions regarding customs clearance, corporate contracts, or tracking? Reach out to our experts.</p>
 
 <div class="contact-grid">
 <div class="contact-info">
@@ -200,7 +278,7 @@ border-top: 1px solid #333;
 <p><strong>Email:</strong> support@phlexpress.com</p>
 <p><strong>Phone:</strong> +1 (800) 555-PHL-LOGISTICS</p>
 <p><strong>Hours:</strong> Mon - Sat: 8:00 AM - 8:00 PM</p>
-<p><strong>Service:</strong> Global Air & Ocean Freight Support</p>
+<p><strong>Service:</strong> Worldwide Freight & Air Logistics</p>
 </div>
 
 <form class="contact-form" onsubmit="event.preventDefault(); alert('Thank you! Your message has been sent successfully to PHL Express support.');">
@@ -223,7 +301,7 @@ border-top: 1px solid #333;
 </section>
 </main>
 
-<!-- MULTI-COLUMN ENTERPRISE FOOTER -->
+<!-- ENTERPRISE FOOTER -->
 <footer>
 <div class="footer-grid">
 <div class="footer-col">
