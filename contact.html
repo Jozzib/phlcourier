@@ -30,15 +30,30 @@ blue: { 600: '#2563EB', 700: '#1D4ED8' }
 <span class="text-[10px] tracking-widest text-blue-400 uppercase font-semibold">Global Logistics</span>
 </div>
 </div>
+
+<!-- Desktop Nav -->
 <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
 <a href="index.html" class="hover:text-white transition">Home</a>
 <a href="index.html#services" class="hover:text-white transition">Services</a>
 <a href="index.html#tracking-section" class="hover:text-white transition">Track Shipment</a>
 <a href="contact.html" class="text-white font-semibold transition">Contact Us</a>
 </nav>
-<div>
-<a href="index.html" class="text-xs font-semibold text-slate-300 hover:text-white bg-slate-800 px-4 py-2.5 rounded-xl transition border border-slate-700">← Back to Home</a>
+
+<!-- Mobile Menu Button -->
+<div class="md:hidden flex items-center space-x-2">
+<a href="index.html" class="bg-slate-800 text-slate-300 text-xs font-semibold px-3 py-2 rounded-xl border border-slate-700">Home</a>
+<button onclick="toggleMobileMenu()" class="text-slate-300 hover:text-white focus:outline-none p-2 text-2xl">
+☰
+</button>
 </div>
+</div>
+
+<!-- Mobile Dropdown Menu -->
+<div id="mobile-menu" class="hidden md:hidden bg-navy-900 border-t border-slate-800 px-6 py-4 space-y-3 text-sm font-medium text-slate-300 shadow-xl">
+<a href="index.html" class="block hover:text-white transition py-1">Home</a>
+<a href="index.html#services" class="block hover:text-white transition py-1">Services</a>
+<a href="index.html#tracking-section" class="block hover:text-white transition py-1">Track Shipment</a>
+<a href="contact.html" class="block text-blue-400 font-semibold transition py-1">Contact Us</a>
 </div>
 </header>
 
@@ -151,6 +166,11 @@ Thank you! Your message has been sent successfully. Our support team will reach 
 
 <!-- Contact Script Logic -->
 <script>
+function toggleMobileMenu() {
+const menu = document.getElementById("mobile-menu");
+menu.classList.toggle("hidden");
+}
+
 function handleContactSubmit(e) {
 e.preventDefault();
 const name = document.getElementById("contact-name").value;
@@ -158,7 +178,6 @@ const email = document.getElementById("contact-email").value;
 const subject = document.getElementById("contact-subject").value;
 const message = document.getElementById("contact-message").value;
 
-// Save inquiry to local storage or simulate success
 let inquiries = [];
 try {
 inquiries = JSON.parse(localStorage.getItem("phl_inquiries")) || [];
@@ -167,7 +186,6 @@ inquiries = JSON.parse(localStorage.getItem("phl_inquiries")) || [];
 inquiries.push({ name, email, subject, message, date: new Date().toISOString() });
 localStorage.setItem("phl_inquiries", JSON.stringify(inquiries));
 
-// Reset form and show success message
 e.target.reset();
 document.getElementById("contact-success").classList.remove("hidden");
 setTimeout(() => {
