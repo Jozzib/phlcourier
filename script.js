@@ -4,7 +4,7 @@ status: "In Transit",
 deliveryDate: "August 3, 2026",
 logs: [
 { time: "July 29, 2026 - 10:30 AM", text: "Package arrived at regional sorting hub" },
-{ time: "July 28, 2026 - 04:15 PM", text: "Departed from origin sorting facility" }
+{ time: "July 28, 2026 - 04:15 PM", text: "Departed from origin facility" }
 ]
 },
 "PHL-102938": {
@@ -29,24 +29,7 @@ return defaultShipments;
 
 function saveShipments(data) {
 localStorage.setItem("phlShipments", JSON.stringify(data));
-populateAdminDropdown();
-}
-
-function switchTab(tabName) {
-const trackingSec = document.getElementById("trackingSection");
-const adminSec = document.getElementById("adminSection");
-const navLinks = document.querySelectorAll("header nav a");
-
-navLinks.forEach(link => link.classList.remove("active-nav"));
-
-if (tabName === 'tracking') {
-trackingSec.classList.remove("hidden");
-adminSec.classList.add("hidden");
-event.target.classList.add("active-nav");
-} else {
-trackingSec.classList.add("hidden");
-adminSec.classList.remove("hidden");
-event.target.classList.add("active-nav");
+if (document.getElementById("adminTrkSelect")) {
 populateAdminDropdown();
 }
 }
@@ -81,15 +64,25 @@ timelineList.appendChild(li);
 });
 
 resultSection.classList.remove("hidden");
+resultSection.scrollIntoView({ behavior: 'smooth' });
 } else {
 alert("Tracking number not found. Try searching: PHL-948201 or PHL-102938");
 resultSection.classList.add("hidden");
 }
 }
 
+// Admin Panel Initialization
+window.onload = function() {
+if (document.getElementById("adminTrkSelect")) {
+populateAdminDropdown();
+}
+};
+
 function populateAdminDropdown() {
 const shipments = getShipments();
 const select = document.getElementById("adminTrkSelect");
+if (!select) return;
+
 select.innerHTML = '<option value="">-- Choose Tracking Number --</option>';
 
 for (let trk in shipments) {
