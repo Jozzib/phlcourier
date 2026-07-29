@@ -62,7 +62,7 @@ From local parcel delivery to international cargo freight, PHL Express ensures y
 <div class="bg-white p-3 rounded-2xl shadow-2xl max-w-2xl mx-auto flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-2 border border-slate-200">
 <div class="flex items-center pl-3 w-full sm:w-auto flex-grow">
 <span class="text-slate-400 mr-2 text-base">📦</span>
-<input type="text" id="search-input" placeholder="Enter tracking number (e.g. PHL-12345)" class="w-full bg-transparent py-2.5 sm:py-3 text-slate-800 text-sm focus:outline-none uppercase font-mono placeholder:normal-case placeholder:font-sans">
+<input type="text" id="search-input" placeholder="PHL-12345" value="PHL-12345" class="w-full bg-transparent py-2.5 sm:py-3 text-slate-800 text-sm focus:outline-none uppercase font-mono">
 </div>
 <button onclick="trackShipment()" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3.5 rounded-xl text-sm transition shadow-lg shadow-blue-600/30 whitespace-nowrap">
 Track Package
@@ -72,8 +72,8 @@ Track Package
 </div>
 </section>
 
-<!-- Dynamic Tracking Result Section (Hidden until searched) -->
-<div id="tracking-result-wrapper" class="max-w-3xl w-full mx-auto px-4 -mt-8 relative z-20 hidden pb-12">
+<!-- Dynamic Tracking Result Section -->
+<div id="tracking-result-wrapper" class="max-w-3xl w-full mx-auto px-4 -mt-8 relative z-20 pb-12">
 <div id="tracking-result" class="space-y-6">
 <!-- Overview Card -->
 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xl space-y-4">
@@ -82,7 +82,7 @@ Track Package
 <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Tracking Number</span>
 <h2 id="res-tracking" class="font-mono font-bold text-lg text-navy-900">PHL-12345</h2>
 </div>
-<div id="res-status-badge" class="px-3 py-1 rounded-full text-xs font-semibold border">
+<div id="res-status-badge" class="px-3 py-1 rounded-full text-xs font-semibold border bg-blue-50 text-blue-700 border-blue-200">
 In Transit
 </div>
 </div>
@@ -122,17 +122,17 @@ Tracking number not found in our database. Please verify your tracking ID and tr
 </div>
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-<div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4 hover:shadow-md transition">
+<div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
 <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xl">✈️</div>
 <h3 class="font-bold text-navy-900 text-lg">Express Air Freight</h3>
 <p class="text-xs text-slate-500 leading-relaxed">Lightning-fast international shipping options designed to get your critical parcels across borders in record time.</p>
 </div>
-<div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4 hover:shadow-md transition">
+<div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
 <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xl">🔒</div>
 <h3 class="font-bold text-navy-900 text-lg">Secure Handling</h3>
 <p class="text-xs text-slate-500 leading-relaxed">End-to-end encryption and physical security measures ensuring sensitive or valuable packages are protected.</p>
 </div>
-<div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4 hover:shadow-md transition">
+<div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
 <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xl">📍</div>
 <h3 class="font-bold text-navy-900 text-lg">Real-Time Milestone Tracking</h3>
 <p class="text-xs text-slate-500 leading-relaxed">Monitor every single scan event, location change, and customs update live through our customer tracking portal.</p>
@@ -150,7 +150,6 @@ Tracking number not found in our database. Please verify your tracking ID and tr
 </div>
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-<!-- Review 1 -->
 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 flex flex-col justify-between">
 <div class="space-y-3">
 <div class="text-amber-400 text-sm">★★★★★</div>
@@ -165,7 +164,6 @@ Tracking number not found in our database. Please verify your tracking ID and tr
 </div>
 </div>
 
-<!-- Review 2 -->
 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 flex flex-col justify-between">
 <div class="space-y-3">
 <div class="text-amber-400 text-sm">★★★★★</div>
@@ -180,7 +178,6 @@ Tracking number not found in our database. Please verify your tracking ID and tr
 </div>
 </div>
 
-<!-- Review 3 -->
 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 flex flex-col justify-between">
 <div class="space-y-3">
 <div class="text-amber-400 text-sm">★★★★★</div>
@@ -212,24 +209,49 @@ Tracking number not found in our database. Please verify your tracking ID and tr
 </div>
 </footer>
 
-<!-- Homepage Script Logic -->
+<!-- Script Logic with Automatic Storage Fallback -->
 <script>
+window.onload = function() {
+// Auto-load default tracking result on page load
+trackShipment();
+}
+
+function getShipments() {
+try {
+let shipments = JSON.parse(localStorage.getItem("phl_shipments"));
+if (shipments && Array.isArray(shipments) && shipments.length > 0) {
+return shipments;
+}
+} catch (err) {}
+
+// Fallback default data if localStorage is empty
+const defaultShipments = [
+{
+trackingNo: "PHL-12345",
+recipient: "Grace",
+destination: "London, UK",
+status: "In Transit",
+history: [
+{ date: "2026-07-28 09:30", location: "Lagos Hub", status: "Processing", details: "Shipment registered in system" },
+{ date: "2026-07-29 14:15", location: "International Airport", status: "In Transit", details: "Departed sorting facility" }
+]
+}
+];
+localStorage.setItem("phl_shipments", JSON.stringify(defaultShipments));
+return defaultShipments;
+}
+
 function trackShipment() {
-const query = document.getElementById("search-input").value.trim().toUpperCase();
+let query = document.getElementById("search-input").value.trim().toUpperCase();
+if (!query) query = "PHL-12345"; // Default if empty
+
 const wrapper = document.getElementById("tracking-result-wrapper");
 const resultBox = document.getElementById("tracking-result");
 const errorBox = document.getElementById("tracking-error");
 
-if (!query) return;
-
 wrapper.classList.remove("hidden");
-wrapper.scrollIntoView({ behavior: 'smooth' });
 
-let shipments = [];
-try {
-shipments = JSON.parse(localStorage.getItem("phl_shipments")) || [];
-} catch (err) { shipments = []; }
-
+const shipments = getShipments();
 const found = shipments.find(s => s.trackingNo.toUpperCase() === query);
 
 if (found) {
