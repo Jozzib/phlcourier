@@ -59,24 +59,26 @@ blue: { 600: '#2563EB', 700: '#1D4ED8' }
 </div>
 </header>
 
-<!-- Hero Section with Integrated Tracking -->
-<section id="hero" class="relative bg-gradient-to-br from-navy-950 via-navy-900 to-blue-950 text-white py-20 md:py-24 px-6 overflow-hidden">
-<div class="absolute inset-0 opacity-10 bg-[radial-gradient(#2563EB_1px,transparent_1px)] [background-size:16px_16px]"></div>
+<!-- Hero Section with Background Photo & Integrated Tracking -->
+<section id="hero" class="relative text-white py-24 md:py-32 px-6 overflow-hidden bg-cover bg-center" style="background-image: url('cargo.png');">
+<!-- Dark overlays to ensure text readability -->
+<div class="absolute inset-0 bg-navy-950/85"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-transparent to-navy-950/40"></div>
 
 <div class="max-w-4xl mx-auto text-center space-y-6 relative z-10">
-<span class="inline-block bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-widest">
+<span class="inline-block bg-blue-500/20 border border-blue-500/30 text-blue-300 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-widest backdrop-blur-sm">
 World-Class Express Delivery
 </span>
-<h1 class="text-3xl sm:text-4xl md:text-6xl font-black tracking-tight leading-tight">
-Fast, Secure & Reliable <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">Global Shipping</span>
+<h1 class="text-3xl sm:text-4xl md:text-6xl font-black tracking-tight leading-tight drop-shadow-md">
+Fast, Secure & Reliable <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-500">Global Shipping</span>
 </h1>
-<p class="text-slate-300 text-sm md:text-lg max-w-2xl mx-auto font-light">
+<p class="text-slate-200 text-sm md:text-lg max-w-2xl mx-auto font-light drop-shadow">
 From local parcel delivery to international cargo freight, PHL Express ensures your shipments arrive safely and on time.
 </p>
 
 <!-- Interactive Tracking Box -->
 <div id="tracking-section" class="pt-4">
-<div class="bg-white p-3 rounded-2xl shadow-2xl max-w-2xl mx-auto flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-2 border border-slate-200">
+<div class="bg-white/95 backdrop-blur-md p-3 rounded-2xl shadow-2xl max-w-2xl mx-auto flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-2 border border-white/20">
 <div class="flex items-center pl-3 w-full sm:w-auto flex-grow">
 <span class="text-slate-400 mr-2 text-base">📦</span>
 <input type="text" id="search-input" placeholder="PHL-12345" value="PHL-12345" class="w-full bg-transparent py-2.5 sm:py-3 text-slate-800 text-sm focus:outline-none uppercase font-mono">
