@@ -249,22 +249,6 @@ return shipments;
 }
 } catch (err) {}
 
-const defaultShipments = [
-{
-trackingNo: "PHL-12345",
-recipient: "Grace",
-destination: "London, UK",
-status: "In Transit",
-history: [
-{ date: "2026-07-26 08:00", location: "Sender Origin", status: "Order Created", details: "Shipping label created and order confirmed" },
-{ date: "2026-07-27 10:30", location: "Lagos Drop-off Center", status: "Picked Up", details: "Package received from sender" },
-{ date: "2026-07-28 09:30", location: "Lagos Central Hub", status: "Processing", details: "Shipment scanned and sorted at primary hub" },
-{ date: "2026-07-29 14:15", location: "International Airport Cargo Terminal", status: "In Transit", details: "Departed sorting facility on international cargo flight" }
-]
-}
-];
-localStorage.setItem("phl_shipments", JSON.stringify(defaultShipments));
-return defaultShipments;
 }
 
 function trackShipment() {
