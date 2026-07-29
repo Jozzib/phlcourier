@@ -20,7 +20,7 @@ blue: { 600: '#2563EB', 700: '#1D4ED8' }
 </head>
 <body class="bg-slate-100 font-sans text-slate-600 antialiased min-h-screen flex flex-col">
 
-<!-- LOGIN SCREEN (Shown by default if not logged in) -->
+<!-- LOGIN SCREEN -->
 <div id="login-screen" class="fixed inset-0 bg-navy-950 z-50 flex items-center justify-center p-6">
 <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full border border-slate-200">
 <div class="text-center mb-8">
@@ -45,9 +45,8 @@ Secure Login
 </div>
 </div>
 
-<!-- ADMIN DASHBOARD (Hidden until logged in) -->
+<!-- ADMIN DASHBOARD -->
 <div id="admin-dashboard" class="hidden flex-grow flex flex-col">
-<!-- Top Navigation -->
 <nav class="bg-navy-950 border-b border-slate-800 text-white h-16 px-6 flex items-center justify-between">
 <div class="flex items-center space-x-3">
 <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-sm">P</div>
@@ -59,7 +58,6 @@ Secure Login
 </div>
 </nav>
 
-<!-- Main Layout -->
 <div class="flex-grow max-w-7xl w-full mx-auto p-6 lg:p-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
 
 <!-- Add Shipment Form Column -->
@@ -68,7 +66,7 @@ Secure Login
 <h2 class="text-lg font-bold text-navy-900">Add New Shipment</h2>
 <p class="text-xs text-slate-500 mt-1">Create a tracking entry for customer lookup.</p>
 </div>
-<form onsubmit="addShipment(event)" class="space-y-4">
+<form id="add-shipment-form" onsubmit="addShipment(event)" class="space-y-4">
 <div>
 <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Tracking Number</label>
 <input type="text" id="track-no" required placeholder="PHL-99882" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-blue-600">
@@ -88,6 +86,7 @@ Secure Login
 <option value="Out for Delivery">Out for Delivery</option>
 <option value="Delivered">Delivered</option>
 <option value="Processing">Processing</option>
+<option value="On Hold">On Hold</option>
 </select>
 </div>
 <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl text-sm transition shadow-sm">
@@ -126,11 +125,9 @@ Save Shipment Entry
 
 <!-- Admin Script Logic -->
 <script>
-// Default login credentials
 const ADMIN_USER = "admin";
 const ADMIN_PASS = "admin123";
 
-// Check if already logged in during session
 window.onload = function() {
 if (localStorage.getItem("phl_logged_in") === "true") {
 showDashboard();
@@ -162,11 +159,9 @@ document.getElementById("admin-dashboard").classList.remove("hidden");
 loadShipmentsTable();
 }
 
-// Shipment Management Functions
 function getShipments() {
 let shipments = localStorage.getItem("phl_shipments");
 if (!shipments) {
-// Default initial sample shipment
 shipments = JSON.stringify([
 { trackingNo: "PHL-98421", recipient: "Acme Corp Ltd", destination: "London, UK", status: "In Transit" }
 ]);
@@ -177,6 +172,7 @@ return JSON.parse(shipments);
 
 function addShipment(e) {
 e.preventDefault();
+try {
 const trackingNo = document.getElementById("track-no").value.trim();
 const recipient = document.getElementById("recipient").value.trim();
 const destination = document.getElementById("destination").value.trim();
@@ -186,11 +182,12 @@ let shipments = getShipments();
 shipments.push({ trackingNo, recipient, destination, status });
 localStorage.setItem("phl_shipments", JSON.stringify(shipments));
 
-document.getElementById("track-no").value = "";
-document.getElementById("recipient").value = "";
-document.getElementById("destination").value = "";
+document.getElementById("add-shipment-form").reset();
 loadShipmentsTable();
 alert("Shipment added successfully!");
+} catch (err) {
+alert("Error saving shipment: " + err.message);
+}
 }
 
 function deleteShipment(index) {
@@ -221,6 +218,7 @@ shipments.forEach((s, idx) => {
 let badgeColor = "bg-blue-50 text-blue-600 border-blue-200";
 if (s.status === "Delivered") badgeColor = "bg-emerald-50 text-emerald-600 border-emerald-200";
 if (s.status === "Out for Delivery") badgeColor = "bg-amber-50 text-amber-600 border-amber-200";
+if (s.status === "On Hold") badgeColor = "bg-rose-50 text-rose-600 border-rose-200";
 
 tbody.innerHTML += `
 <tr>
@@ -233,6 +231,7 @@ tbody.innerHTML += `
 <option value="Out for Delivery" ${s.status === "Out for Delivery" ? "selected" : ""}>Out for Delivery</option>
 <option value="Delivered" ${s.status === "Delivered" ? "selected" : ""}>Delivered</option>
 <option value="Processing" ${s.status === "Processing" ? "selected" : ""}>Processing</option>
+<option value="On Hold" ${s.status === "On Hold" ? "selected" : ""}>On Hold</option>
 </select>
 </td>
 <td class="p-3 text-right">
