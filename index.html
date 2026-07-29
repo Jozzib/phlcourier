@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PHL Courier | Global Logistics & Tracking</title>
+<link rel="stylesheet" href="style.css">
+<!-- Google Fonts for a modern, professional look -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+<div class="logo">PHL <span>COURIER</span></div>
+<nav>
+<a href="#" onclick="switchTab('tracking')" class="active-nav">Track Shipment</a>
+<a href="#" onclick="switchTab('admin')">Admin Panel</a>
+</nav>
+</header>
+
+<main>
+<!-- TRACKING SECTION -->
+<section id="trackingSection" class="tab-content">
+<div class="hero">
+<h1>Fast, Secure & Reliable Global Delivery</h1>
+<p>Enter your tracking number below to check real-time shipment status and history.</p>
+<div class="tracking-box">
+<input type="text" id="trackingInput" placeholder="e.g. PHL-948201">
+<button onclick="trackShipment()">Track Package</button>
+</div>
+</div>
+
+<section id="resultSection" class="result-section hidden">
+<div class="card">
+<div class="card-header">
+<h2>Shipment Overview</h2>
+<span id="resStatus" class="badge"></span>
+</div>
+<div class="info-grid">
+<div>
+<span class="label">Tracking Number</span>
+<p id="resTrackingNum" class="value"></p>
+</div>
+<div>
+<span class="label">Estimated Delivery</span>
+<p id="resDelivery" class="value"></p>
+</div>
+</div>
+
+<h3>Transit History & Checkpoints</h3>
+<ul id="timelineList" class="timeline">
+<!-- Dynamic logs will appear here -->
+</ul>
+</div>
+</section>
+</section>
+
+<!-- ADMIN PANEL SECTION -->
+<section id="adminSection" class="tab-content hidden">
+<div class="admin-container">
+<h2>Logistics Management Dashboard</h2>
+<p class="subtitle">Create new shipments, update live locations, or put packages on hold.</p>
+
+<!-- Create New Shipment -->
+<div class="admin-card">
+<h3>1. Register New Shipment</h3>
+<div class="form-group">
+<label>Tracking Number</label>
+<input type="text" id="newTrkNum" placeholder="e.g. PHL-554433">
+</div>
+<div class="form-group">
+<label>Estimated Delivery Date</label>
+<input type="text" id="newDelivery" placeholder="e.g. August 5, 2026">
+</div>
+<button onclick="createShipment()" class="btn-primary">Create Shipment</button>
+</div>
+
+<!-- Update Existing Shipment -->
+<div class="admin-card">
+<h3>2. Update Status, Location, or Hold Package</h3>
+<div class="form-group">
+<label>Select Shipment</label>
+<select id="adminTrkSelect" onchange="loadAdminShipmentDetails()">
+<option value="">-- Choose Tracking Number --</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Current Status</label>
+<select id="adminStatusSelect">
+<option value="In Transit">In Transit</option>
+<option value="Out for Delivery">Out for Delivery</option>
+<option value="On Hold">🔴 On Hold (Review Required)</option>
+<option value="Delivered">🟢 Delivered</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>New Location Checkpoint Note</label>
+<input type="text" id="adminLogText" placeholder="e.g. Arrived at International Sorting Hub, London">
+</div>
+
+<button onclick="updateShipmentData()" class="btn-secondary">Save Changes</button>
+</div>
+</div>
+</section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
