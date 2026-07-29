@@ -253,7 +253,10 @@ return shipments;
 
 function trackShipment() {
 let query = document.getElementById("search-input").value.trim().toUpperCase();
-if (!query) query = "PHL-12345";
+if (!query) {
+alert('Please enter a tracking number.');
+return;
+}
 
 const wrapper = document.getElementById("tracking-result-wrapper");
 const resultBox = document.getElementById("tracking-result");
