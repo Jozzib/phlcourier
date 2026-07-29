@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Portal | PHL Express</title>
 <script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Firebase App Core & Firestore Compat SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
 <script>
 tailwind.config = {
 theme: {
@@ -16,6 +21,20 @@ blue: { 600: '#2563EB', 700: '#1D4ED8' }
 }
 }
 }
+
+// Initialize Firebase Cloud Database
+const firebaseConfig = {
+apiKey: "AIzaSyAp5Xbup9qdNplMzkQPgeu49ZFjq0RLgko",
+authDomain: "phl-courier.firebaseapp.com",
+projectId: "phl-courier",
+storageBucket: "phl-courier.firebasestorage.app",
+messagingSenderId: "858130682931",
+appId: "1:858130682931:web:8493a4470a9e0e5827bf46",
+measurementId: "G-5SRRPR6PTY"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 </script>
 </head>
 <body class="bg-slate-100 font-sans text-slate-600 antialiased min-h-screen flex flex-col">
@@ -64,12 +83,12 @@ Secure Login
 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm h-fit space-y-6">
 <div>
 <h2 class="text-lg font-bold text-navy-900">Add New Shipment</h2>
-<p class="text-xs text-slate-500 mt-1">Create a tracking entry for customer lookup.</p>
+<p class="text-xs text-slate-500 mt-1">Create a cloud tracking entry for customer lookup.</p>
 </div>
 <form id="add-shipment-form" onsubmit="addShipment(event)" class="space-y-4">
 <div>
 <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Tracking Number</label>
-<input type="text" id="track-no" required placeholder="PHL-12345" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-blue-600">
+<input type="text" id="track-no" required placeholder="PHL-12345" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-blue-600 uppercase font-mono">
 </div>
 <div>
 <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Recipient Name</label>
@@ -98,7 +117,7 @@ Save Shipment Entry
 <!-- Shipments Management Table Column -->
 <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
 <div>
-<h2 class="text-lg font-bold text-navy-900">Active Shipments Database</h2>
+<h2 class="text-lg font-bold text-navy-900">Active Cloud Shipments Database</h2>
 <p class="text-xs text-slate-500 mt-1">Manage statuses, update checkpoints, or remove packages.</p>
 </div>
 
@@ -113,7 +132,7 @@ Save Shipment Entry
 </tr>
 </thead>
 <tbody id="shipment-table-body" class="divide-y divide-slate-200 text-slate-600 text-xs">
-<!-- Populated dynamically -->
+<!-- Populated dynamically from cloud -->
 </tbody>
 </table>
 </div>
@@ -134,7 +153,6 @@ Save Shipment Entry
 </div>
 
 <form onsubmit="addCheckpoint(event)" class="space-y-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
-<input type="hidden" id="modal-index">
 <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Add New Scan Event</h4>
 <div class="grid grid-cols-2 gap-3">
 <div>
@@ -174,10 +192,11 @@ Save Shipment Entry
 </div>
 </div>
 
-<!-- Admin Logic Script -->
+<!-- Admin Cloud Logic Script -->
 <script>
 const ADMIN_USER = "admin";
 const ADMIN_PASS = "admin123";
+let currentEditingTrackingNo = null;
 
 window.onload = function() {
 if (localStorage.getItem("phl_logged_in") === "true") {
@@ -209,75 +228,21 @@ document.getElementById("admin-dashboard").classList.remove("hidden");
 loadShipmentsTable();
 }
 
-function getShipments() {
-try {
-let shipments = localStorage.getItem("phl_shipments");
-if (shipments) {
-let parsed = JSON.parse(shipments);
-if (Array.isArray(parsed)) return parsed;
-}
-} catch (err) { console.error("Error reading storage"); }
-
-let defaultShipments = [
-{
-trackingNo: "PHL-12345",
-recipient: "Grace",
-destination: "London, UK",
-status: "In Transit",
-history: [
-{ date: "2026-07-28 09:30", location: "Lagos Hub", status: "Processing", details: "Shipment information received" },
-{ date: "2026-07-29 14:15", location: "International Airport", status: "In Transit", details: "Departed sorting facility" }
-]
-}
-];
-localStorage.setItem("phl_shipments", JSON.stringify(defaultShipments));
-return defaultShipments;
-}
-
-function addShipment(e) {
-e.preventDefault();
-const trackingNo = document.getElementById("track-no").value.trim();
-const recipient = document.getElementById("recipient").value.trim();
-const destination = document.getElementById("destination").value.trim();
-const status = document.getElementById("status").value;
-
-let shipments = getShipments();
-const now = new Date().toISOString().slice(0, 16).replace('T', ' ');
-
-shipments.push({
-trackingNo,
-recipient,
-destination,
-status,
-history: [
-{ date: now, location: "Origin Facility", status: status, details: "Shipment created & registered" }
-]
-});
-
-localStorage.setItem("phl_shipments", JSON.stringify(shipments));
-document.getElementById("add-shipment-form").reset();
-loadShipmentsTable();
-alert("Shipment added successfully!");
-}
-
-function deleteShipment(index) {
-let shipments = getShipments();
-shipments.splice(index, 1);
-localStorage.setItem("phl_shipments", JSON.stringify(shipments));
-loadShipmentsTable();
-}
-
-function loadShipmentsTable() {
-const shipments = getShipments();
+async function loadShipmentsTable() {
 const tbody = document.getElementById("shipment-table-body");
+tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">Loading shipments from cloud...</td></tr>`;
+
+try {
+const snapshot = await db.collection("shipments").get();
 tbody.innerHTML = "";
 
-if (shipments.length === 0) {
-tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No shipments found in database.</td></tr>`;
+if (snapshot.empty) {
+tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No shipments found in cloud database.</td></tr>`;
 return;
 }
 
-shipments.forEach((s, idx) => {
+snapshot.forEach((doc) => {
+let s = doc.data();
 let badgeColor = "bg-blue-50 text-blue-600 border-blue-200";
 if (s.status === "Delivered") badgeColor = "bg-emerald-50 text-emerald-600 border-emerald-200";
 if (s.status === "Out for Delivery") badgeColor = "bg-amber-50 text-amber-600 border-amber-200";
@@ -289,21 +254,72 @@ tbody.innerHTML += `
 <td class="p-3">${s.recipient}</td>
 <td class="p-3"><span class="px-2 py-1 rounded-md text-[11px] font-semibold border ${badgeColor}">${s.status}</span></td>
 <td class="p-3 text-right space-x-2">
-<button onclick="openCheckpointModal(${idx})" class="bg-blue-50 text-blue-600 hover:bg-blue-100 px-2.5 py-1 rounded-lg font-medium transition">Manage Checkpoints</button>
-<button onclick="deleteShipment(${idx})" class="text-rose-600 hover:underline font-medium">Delete</button>
+<button onclick="openCheckpointModal('${s.trackingNo}')" class="bg-blue-50 text-blue-600 hover:bg-blue-100 px-2.5 py-1 rounded-lg font-medium transition">Manage Checkpoints</button>
+<button onclick="deleteShipment('${s.trackingNo}')" class="text-rose-600 hover:underline font-medium">Delete</button>
 </td>
 </tr>
 `;
 });
+} catch (error) {
+console.error("Error loading shipments:", error);
+tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-rose-500">Error loading data from cloud database.</td></tr>`;
+}
 }
 
-function openCheckpointModal(index) {
-let shipments = getShipments();
-let s = shipments[index];
-document.getElementById("modal-index").value = index;
+async function addShipment(e) {
+e.preventDefault();
+const trackingNo = document.getElementById("track-no").value.trim().toUpperCase();
+const recipient = document.getElementById("recipient").value.trim();
+const destination = document.getElementById("destination").value.trim();
+const status = document.getElementById("status").value;
+
+const now = new Date().toISOString().slice(0, 16).replace('T', ' ');
+
+const shipmentData = {
+trackingNo,
+recipient,
+destination,
+status,
+history: [
+{ date: now, location: "Origin Facility", status: status, details: "Shipment created & registered" }
+]
+};
+
+try {
+await db.collection("shipments").doc(trackingNo).set(shipmentData);
+document.getElementById("add-shipment-form").reset();
+loadShipmentsTable();
+alert("Shipment successfully added to the cloud database!");
+} catch (error) {
+console.error("Error adding shipment: ", error);
+alert("Error saving shipment to cloud.");
+}
+}
+
+async function deleteShipment(trackingNo) {
+if (confirm(`Are you sure you want to delete shipment ${trackingNo}?`)) {
+try {
+await db.collection("shipments").doc(trackingNo).delete();
+loadShipmentsTable();
+} catch (error) {
+console.error("Error deleting shipment: ", error);
+}
+}
+}
+
+async function openCheckpointModal(trackingNo) {
+currentEditingTrackingNo = trackingNo;
+try {
+const doc = await db.collection("shipments").doc(trackingNo).get();
+if (doc.exists) {
+let s = doc.data();
 document.getElementById("modal-tracking-title").innerText = `Checkpoints: ${s.trackingNo} (${s.recipient})`;
 renderModalHistory(s.history);
 document.getElementById("checkpoint-modal").classList.remove("hidden");
+}
+} catch (error) {
+console.error("Error fetching shipment for checkpoints:", error);
+}
 }
 
 function closeCheckpointModal() {
@@ -331,27 +347,35 @@ container.innerHTML += `
 });
 }
 
-function addCheckpoint(e) {
+async function addCheckpoint(e) {
 e.preventDefault();
-const index = document.getElementById("modal-index").value;
+if (!currentEditingTrackingNo) return;
+
 const location = document.getElementById("cp-location").value.trim();
 const status = document.getElementById("cp-status").value;
 const details = document.getElementById("cp-desc").value.trim();
 
 const now = new Date().toISOString().slice(0, 16).replace('T', ' ');
 
-let shipments = getShipments();
-if (!shipments[index].history) shipments[index].history = [];
+try {
+const ref = db.collection("shipments").doc(currentEditingTrackingNo);
+const doc = await ref.get();
+if (doc.exists) {
+let data = doc.data();
+if (!data.history) data.history = [];
+data.history.push({ date: now, location, status, details });
+data.status = status;
 
-shipments[index].history.push({ date: now, location, status, details });
-shipments[index].status = status; // Update main status to latest checkpoint status
-
-localStorage.setItem("phl_shipments", JSON.stringify(shipments));
+await ref.set(data);
 
 document.getElementById("cp-location").value = "";
 document.getElementById("cp-desc").value = "";
-renderModalHistory(shipments[index].history);
+renderModalHistory(data.history);
 alert("Checkpoint added successfully!");
+}
+} catch (error) {
+console.error("Error adding checkpoint: ", error);
+}
 }
 </script>
 </body>
