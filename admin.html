@@ -69,18 +69,18 @@ Secure Login
 <form id="add-shipment-form" onsubmit="addShipment(event)" class="space-y-4">
 <div>
 <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Tracking Number</label>
-<input type="text" id="track-no" required placeholder="PHL-99882" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-blue-600">
+<input type="text" id="track-no" required placeholder="PHL-12345" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-blue-600">
 </div>
 <div>
 <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Recipient Name</label>
-<input type="text" id="recipient" required placeholder="Acme Corp" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-blue-600">
+<input type="text" id="recipient" required placeholder="Grace" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-blue-600">
 </div>
 <div>
 <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Destination</label>
 <input type="text" id="destination" required placeholder="London, UK" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-blue-600">
 </div>
 <div>
-<label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Delivery Status</label>
+<label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Initial Status</label>
 <select id="status" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-blue-600">
 <option value="In Transit">In Transit</option>
 <option value="Out for Delivery">Out for Delivery</option>
@@ -99,7 +99,7 @@ Save Shipment Entry
 <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
 <div>
 <h2 class="text-lg font-bold text-navy-900">Active Shipments Database</h2>
-<p class="text-xs text-slate-500 mt-1">Manage, update status, or remove active courier packages.</p>
+<p class="text-xs text-slate-500 mt-1">Manage statuses, update checkpoints, or remove packages.</p>
 </div>
 
 <div class="overflow-x-auto border border-slate-200 rounded-xl">
@@ -108,13 +108,12 @@ Save Shipment Entry
 <tr>
 <th class="p-3 font-semibold">Tracking No.</th>
 <th class="p-3 font-semibold">Recipient</th>
-<th class="p-3 font-semibold">Destination</th>
 <th class="p-3 font-semibold">Status</th>
 <th class="p-3 font-semibold text-right">Actions</th>
 </tr>
 </thead>
 <tbody id="shipment-table-body" class="divide-y divide-slate-200 text-slate-600 text-xs">
-<!-- Populated dynamically via JavaScript -->
+<!-- Populated dynamically -->
 </tbody>
 </table>
 </div>
@@ -123,7 +122,59 @@ Save Shipment Entry
 </div>
 </div>
 
-<!-- Admin Script Logic -->
+<!-- CHECKPOINT MANAGEMENT MODAL -->
+<div id="checkpoint-modal" class="hidden fixed inset-0 bg-navy-950/70 z-50 flex items-center justify-center p-4">
+<div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-6 border border-slate-200 shadow-2xl">
+<div class="flex justify-between items-center border-b pb-4">
+<div>
+<h3 class="font-bold text-navy-900 text-base" id="modal-tracking-title">Manage Checkpoints</h3>
+<p class="text-xs text-slate-500">Add timeline history updates for customer tracking.</p>
+</div>
+<button onclick="closeCheckpointModal()" class="text-slate-400 hover:text-slate-600 font-bold text-lg">&times;</button>
+</div>
+
+<form onsubmit="addCheckpoint(event)" class="space-y-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+<input type="hidden" id="modal-index">
+<h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Add New Scan Event</h4>
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="block text-[11px] font-semibold text-slate-600 mb-1">Location</label>
+<input type="text" id="cp-location" required placeholder="London Hub, UK" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-blue-600">
+</div>
+<div>
+<label class="block text-[11px] font-semibold text-slate-600 mb-1">Status Update</label>
+<select id="cp-status" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-blue-600">
+<option value="In Transit">In Transit</option>
+<option value="Out for Delivery">Out for Delivery</option>
+<option value="Delivered">Delivered</option>
+<option value="Processing">Processing</option>
+<option value="On Hold">On Hold</option>
+</select>
+</div>
+</div>
+<div>
+<label class="block text-[11px] font-semibold text-slate-600 mb-1">Activity Details / Note</label>
+<input type="text" id="cp-desc" required placeholder="Arrived at sorting facility" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-blue-600">
+</div>
+<button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg text-xs transition">
++ Add Checkpoint Scan
+</button>
+</form>
+
+<div>
+<h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Existing Checkpoint History</h4>
+<div id="modal-history-list" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+<!-- History items -->
+</div>
+</div>
+
+<div class="text-right pt-2 border-t">
+<button onclick="closeCheckpointModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold px-4 py-2 rounded-xl text-xs transition">Done</button>
+</div>
+</div>
+</div>
+
+<!-- Admin Logic Script -->
 <script>
 const ADMIN_USER = "admin";
 const ADMIN_PASS = "admin123";
@@ -138,7 +189,6 @@ function handleLogin(e) {
 e.preventDefault();
 const u = document.getElementById("username").value;
 const p = document.getElementById("password").value;
-
 if (u === ADMIN_USER && p === ADMIN_PASS) {
 localStorage.setItem("phl_logged_in", "true");
 showDashboard();
@@ -164,17 +214,21 @@ try {
 let shipments = localStorage.getItem("phl_shipments");
 if (shipments) {
 let parsed = JSON.parse(shipments);
-if (Array.isArray(parsed)) {
-return parsed;
+if (Array.isArray(parsed)) return parsed;
 }
-}
-} catch (err) {
-console.error("Resetting corrupted shipment storage");
-}
+} catch (err) { console.error("Error reading storage"); }
 
-// Fallback default array if storage was empty or corrupted
 let defaultShipments = [
-{ trackingNo: "PHL-98421", recipient: "Acme Corp Ltd", destination: "London, UK", status: "In Transit" }
+{
+trackingNo: "PHL-12345",
+recipient: "Grace",
+destination: "London, UK",
+status: "In Transit",
+history: [
+{ date: "2026-07-28 09:30", location: "Lagos Hub", status: "Processing", details: "Shipment information received" },
+{ date: "2026-07-29 14:15", location: "International Airport", status: "In Transit", details: "Departed sorting facility" }
+]
+}
 ];
 localStorage.setItem("phl_shipments", JSON.stringify(defaultShipments));
 return defaultShipments;
@@ -182,34 +236,33 @@ return defaultShipments;
 
 function addShipment(e) {
 e.preventDefault();
-try {
 const trackingNo = document.getElementById("track-no").value.trim();
 const recipient = document.getElementById("recipient").value.trim();
 const destination = document.getElementById("destination").value.trim();
 const status = document.getElementById("status").value;
 
 let shipments = getShipments();
-shipments.push({ trackingNo, recipient, destination, status });
-localStorage.setItem("phl_shipments", JSON.stringify(shipments));
+const now = new Date().toISOString().slice(0, 16).replace('T', ' ');
 
+shipments.push({
+trackingNo,
+recipient,
+destination,
+status,
+history: [
+{ date: now, location: "Origin Facility", status: status, details: "Shipment created & registered" }
+]
+});
+
+localStorage.setItem("phl_shipments", JSON.stringify(shipments));
 document.getElementById("add-shipment-form").reset();
 loadShipmentsTable();
 alert("Shipment added successfully!");
-} catch (err) {
-alert("Error saving shipment: " + err.message);
-}
 }
 
 function deleteShipment(index) {
 let shipments = getShipments();
 shipments.splice(index, 1);
-localStorage.setItem("phl_shipments", JSON.stringify(shipments));
-loadShipmentsTable();
-}
-
-function updateStatus(index, newStatus) {
-let shipments = getShipments();
-shipments[index].status = newStatus;
 localStorage.setItem("phl_shipments", JSON.stringify(shipments));
 loadShipmentsTable();
 }
@@ -220,7 +273,7 @@ const tbody = document.getElementById("shipment-table-body");
 tbody.innerHTML = "";
 
 if (shipments.length === 0) {
-tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">No shipments found in database.</td></tr>`;
+tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No shipments found in database.</td></tr>`;
 return;
 }
 
@@ -234,22 +287,71 @@ tbody.innerHTML += `
 <tr>
 <td class="p-3 font-mono font-medium text-navy-900">${s.trackingNo}</td>
 <td class="p-3">${s.recipient}</td>
-<td class="p-3">${s.destination}</td>
-<td class="p-3">
-<select onchange="updateStatus(${idx}, this.value)" class="bg-white border border-slate-300 rounded-lg px-2 py-1 text-xs font-semibold ${badgeColor}">
-<option value="In Transit" ${s.status === "In Transit" ? "selected" : ""}>In Transit</option>
-<option value="Out for Delivery" ${s.status === "Out for Delivery" ? "selected" : ""}>Out for Delivery</option>
-<option value="Delivered" ${s.status === "Delivered" ? "selected" : ""}>Delivered</option>
-<option value="Processing" ${s.status === "Processing" ? "selected" : ""}>Processing</option>
-<option value="On Hold" ${s.status === "On Hold" ? "selected" : ""}>On Hold</option>
-</select>
-</td>
-<td class="p-3 text-right">
+<td class="p-3"><span class="px-2 py-1 rounded-md text-[11px] font-semibold border ${badgeColor}">${s.status}</span></td>
+<td class="p-3 text-right space-x-2">
+<button onclick="openCheckpointModal(${idx})" class="bg-blue-50 text-blue-600 hover:bg-blue-100 px-2.5 py-1 rounded-lg font-medium transition">Manage Checkpoints</button>
 <button onclick="deleteShipment(${idx})" class="text-rose-600 hover:underline font-medium">Delete</button>
 </td>
 </tr>
 `;
 });
+}
+
+function openCheckpointModal(index) {
+let shipments = getShipments();
+let s = shipments[index];
+document.getElementById("modal-index").value = index;
+document.getElementById("modal-tracking-title").innerText = `Checkpoints: ${s.trackingNo} (${s.recipient})`;
+renderModalHistory(s.history);
+document.getElementById("checkpoint-modal").classList.remove("hidden");
+}
+
+function closeCheckpointModal() {
+document.getElementById("checkpoint-modal").classList.add("hidden");
+loadShipmentsTable();
+}
+
+function renderModalHistory(history) {
+const container = document.getElementById("modal-history-list");
+container.innerHTML = "";
+if (!history || history.length === 0) {
+container.innerHTML = `<p class="text-xs text-slate-400 p-2">No checkpoints recorded yet.</p>`;
+return;
+}
+history.slice().reverse().forEach((h) => {
+container.innerHTML += `
+<div class="bg-white border border-slate-200 p-2.5 rounded-lg text-xs space-y-0.5">
+<div class="flex justify-between font-bold text-navy-900">
+<span>📍 ${h.location}</span>
+<span class="text-[10px] text-slate-400 font-normal">${h.date}</span>
+</div>
+<p class="text-slate-600">${h.details} <span class="text-[10px] font-semibold text-blue-600">(${h.status})</span></p>
+</div>
+`;
+});
+}
+
+function addCheckpoint(e) {
+e.preventDefault();
+const index = document.getElementById("modal-index").value;
+const location = document.getElementById("cp-location").value.trim();
+const status = document.getElementById("cp-status").value;
+const details = document.getElementById("cp-desc").value.trim();
+
+const now = new Date().toISOString().slice(0, 16).replace('T', ' ');
+
+let shipments = getShipments();
+if (!shipments[index].history) shipments[index].history = [];
+
+shipments[index].history.push({ date: now, location, status, details });
+shipments[index].status = status; // Update main status to latest checkpoint status
+
+localStorage.setItem("phl_shipments", JSON.stringify(shipments));
+
+document.getElementById("cp-location").value = "";
+document.getElementById("cp-desc").value = "";
+renderModalHistory(shipments[index].history);
+alert("Checkpoint added successfully!");
 }
 </script>
 </body>
