@@ -6,8 +6,107 @@
 <title>PHL Express | Global Logistics & Shipping Partner</title>
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Additional professional layout styles inspired by global logistics platforms */
+.top-utility-bar {
+background-color: #111;
+color: #fff;
+font-size: 13px;
+padding: 6px 5%;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.top-utility-bar a {
+color: #D4AF37;
+text-decoration: none;
+margin-left: 15px;
+}
+.top-utility-bar a:hover {
+text-decoration: underline;
+}
+.service-banner {
+background-color: #fff3cd;
+border-left: 4px solid #D4AF37;
+padding: 12px 5%;
+margin: 0;
+font-size: 14px;
+color: #333;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+.hero-actions {
+display: flex;
+gap: 10px;
+margin-top: 15px;
+}
+.btn-secondary-hero {
+background-color: transparent;
+color: #fff;
+border: 2px solid #fff;
+padding: 12px 24px;
+font-weight: 600;
+border-radius: 4px;
+cursor: pointer;
+transition: background 0.2s;
+}
+.btn-secondary-hero:hover {
+background-color: rgba(255,255,255,0.1);
+}
+.footer-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 30px;
+padding: 40px 5%;
+background-color: #1a1a1a;
+color: #ccc;
+font-size: 14px;
+}
+.footer-col h4 {
+color: #fff;
+margin-bottom: 15px;
+font-size: 16px;
+border-bottom: 2px solid #D4AF37;
+padding-bottom: 5px;
+display: inline-block;
+}
+.footer-col ul {
+list-style: none;
+padding: 0;
+margin: 0;
+}
+.footer-col ul li {
+margin-bottom: 8px;
+}
+.footer-col ul li a {
+color: #ccc;
+text-decoration: none;
+}
+.footer-col ul li a:hover {
+color: #D4AF37;
+}
+.sub-footer {
+background-color: #111;
+color: #777;
+text-align: center;
+padding: 15px;
+font-size: 13px;
+border-top: 1px solid #333;
+}
+</style>
 </head>
 <body>
+
+<!-- TOP UTILITY BAR (DHL Style) -->
+<div class="top-utility-bar">
+<div><span>📍 Nigeria</span> | <a href="#contactSection">Customer Service</a></div>
+<div>
+<a href="#contactSection">Support</a>
+<a href="admin.html" target="_blank" style="color: #D4AF37; font-weight: bold;">Admin Portal ↗</a>
+</div>
+</div>
+
 <header>
 <div class="logo">PHL <span>EXPRESS</span></div>
 <nav>
@@ -18,6 +117,12 @@
 </nav>
 </header>
 
+<!-- SERVICE UPDATE BULLETIN (DHL Style) -->
+<div class="service-banner">
+<span><strong>Service Update:</strong> Explore our enhanced global air freight and express customs clearance options for 2026.</span>
+<a href="#benefitsSection" style="color: #b8860b; font-weight: bold; text-decoration: none;">Learn More →</a>
+</div>
+
 <main>
 <!-- HERO & TRACKING SECTION -->
 <section id="trackingSection" class="hero">
@@ -25,8 +130,11 @@
 <h1>Ship Internationally with PHL Express</h1>
 <p>Looking for a reliable shipping partner? Enter your tracking number below for real-time status updates.</p>
 <div class="tracking-box">
-<input type="text" id="trackingInput" placeholder="Enter tracking number (e.g. PHL-948201)">
+<input type="text" id="trackingInput" placeholder="Enter tracking number(s) (e.g. PHL-948201)">
 <button onclick="trackShipment()">Track Package</button>
+</div>
+<div class="hero-actions">
+<button class="btn-secondary-hero" onclick="location.href='#contactSection';">Get an Instant Quote</button>
 </div>
 </div>
 </section>
@@ -78,22 +186,22 @@
 </div>
 </section>
 
-<!-- BENEFITS SECTION -->
+<!-- BENEFITS / SERVICES SECTION -->
 <section id="benefitsSection" class="benefits-section">
 <h2>Looking for a reliable shipping partner? PHL Express offers these benefits:</h2>
 <div class="benefits-grid">
 <div class="benefit-item">
 <div class="benefit-icon">✈️</div>
 <div>
-<h3>Easy International Shipping</h3>
-<p>A wide range of services and door-to-door shipping options to solve your international export challenges, covering global destinations.</p>
+<h3>Express Document & Package</h3>
+<p>A wide range of door-to-door shipping options to solve your international export challenges, covering global destinations.</p>
 </div>
 </div>
 <div class="benefit-item">
-<div class="benefit-icon">📦</div>
+<div class="benefit-icon">🚢</div>
 <div>
-<h3>Flexible Delivery Options</h3>
-<p>Manage shipments seamlessly with status updates, hold controls, and precise location checkpoints to keep clients informed.</p>
+<h3>Pallets, Containers & Cargo</h3>
+<p>Comprehensive air and ocean freight solutions designed for business supply chains and heavy commercial volume.</p>
 </div>
 </div>
 <div class="benefit-item">
@@ -141,8 +249,45 @@
 </section>
 </main>
 
+<!-- MULTI-COLUMN ENTERPRISE FOOTER (DHL Style) -->
 <footer>
+<div class="footer-grid">
+<div class="footer-col">
+<h4>Quick Links</h4>
+<ul>
+<li><a href="#trackingSection">Track Shipment</a></li>
+<li><a href="#contactSection">Get a Quote</a></li>
+<li><a href="#contactSection">Customer Service</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h4>Our Divisions</h4>
+<ul>
+<li><a href="#benefitsSection">PHL Express</a></li>
+<li><a href="#benefitsSection">PHL Global Forwarding</a></li>
+<li><a href="#benefitsSection">Freight Cargo</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h4>Company Information</h4>
+<ul>
+<li><a href="#contactSection">About PHL Express</a></li>
+<li><a href="#contactSection">Careers</a></li>
+<li><a href="#contactSection">Sustainability</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h4>Legal & Support</h4>
+<ul>
+<li><a href="#contactSection">Fraud Awareness</a></li>
+<li><a href="#contactSection">Terms of Use</a></li>
+<li><a href="#contactSection">Privacy Notice</a></li>
+</ul>
+</div>
+</div>
+<div class="sub-footer">
 <p>&copy; 2026 PHL Express Courier. All rights reserved. | Global Logistics & Supply Chain Solutions</p>
+</div>
 </footer>
 
 <script src="script.js"></script>
