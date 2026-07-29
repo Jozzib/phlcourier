@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PHL Courier | Secure Admin Control Panel</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+<div class="logo">PHL <span>ADMIN PANEL</span></div>
+<nav>
+<a href="index.html" target="_blank">View Public Site ↗</a>
+</nav>
+</header>
+
+<main>
+<div class="admin-container" style="margin-top: 40px;">
+<h2>Logistics Control Dashboard</h2>
+<p class="subtitle">Create shipments, update real-time locations, or put items on hold.</p>
+
+<!-- Register New Shipment -->
+<div class="admin-card">
+<h3>1. Register New Shipment</h3>
+<div class="form-group">
+<label>Tracking Number</label>
+<input type="text" id="newTrkNum" placeholder="e.g. PHL-554433">
+</div>
+<div class="form-group">
+<label>Estimated Delivery Date</label>
+<input type="text" id="newDelivery" placeholder="e.g. August 5, 2026">
+</div>
+<button onclick="createShipment()" class="btn-primary">Create Shipment</button>
+</div>
+
+<!-- Update Existing Shipment -->
+<div class="admin-card">
+<h3>2. Update Status, Location, or Hold Package</h3>
+<div class="form-group">
+<label>Select Shipment</label>
+<select id="adminTrkSelect" onchange="loadAdminShipmentDetails()">
+<option value="">-- Choose Tracking Number --</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Current Status</label>
+<select id="adminStatusSelect">
+<option value="In Transit">In Transit</option>
+<option value="Out for Delivery">Out for Delivery</option>
+<option value="On Hold">🔴 On Hold (Review Required)</option>
+<option value="Delivered">🟢 Delivered</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>New Location Checkpoint Note</label>
+<input type="text" id="adminLogText" placeholder="e.g. Arrived at Sorting Hub, New York">
+</div>
+
+<button onclick="updateShipmentData()" class="btn-secondary">Save Changes</button>
+</div>
+</div>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
