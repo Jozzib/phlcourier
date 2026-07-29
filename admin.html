@@ -72,7 +72,7 @@ header { background-color: #1a1a1a; padding: 20px 5%; display: flex; justify-con
 </div>
 </div>
 
-<!-- DASHBOARD (Hidden until logged in) -->
+<!-- DASHBOARD -->
 <div id="dashboardContainer">
 <div class="dashboard-header">
 <div>
@@ -138,11 +138,30 @@ header { background-color: #1a1a1a; padding: 20px 5%; display: flex; justify-con
 </div>
 
 <script>
+let inactivityTimer;
+const INACTIVITY_LIMIT = 2 * 60 * 1000; // 2 minutes in milliseconds
+
 window.onload = function() {
 if (sessionStorage.getItem('phl_logged_in') === 'true') {
 showDashboard();
 }
+
+// Track user interaction to reset inactivity timer
+window.addEventListener('mousemove', resetInactivityTimer);
+window.addEventListener('keypress', resetInactivityTimer);
+window.addEventListener('click', resetInactivityTimer);
+window.addEventListener('scroll', resetInactivityTimer);
 };
+
+function resetInactivityTimer() {
+if (sessionStorage.getItem('phl_logged_in') === 'true') {
+clearTimeout(inactivityTimer);
+inactivityTimer = setTimeout(() => {
+handleLogout();
+alert('Session expired due to 2 minutes of inactivity.');
+}, INACTIVITY_LIMIT);
+}
+}
 
 function handleLogin(event) {
 event.preventDefault();
@@ -162,9 +181,11 @@ function showDashboard() {
 document.getElementById('loginOverlay').style.display = 'none';
 document.getElementById('dashboardContainer').style.display = 'block';
 loadShipmentDropdown();
+resetInactivityTimer(); // Start timer on login
 }
 
 function handleLogout() {
+clearTimeout(inactivityTimer);
 sessionStorage.removeItem('phl_logged_in');
 document.getElementById('dashboardContainer').style.display = 'none';
 document.getElementById('loginOverlay').style.display = 'flex';
@@ -199,6 +220,7 @@ select.appendChild(opt);
 
 function createShipment(event) {
 event.preventDefault();
+resetInactivityTimer();
 const num = document.getElementById('newTrackingNum').value.trim();
 const date = document.getElementById('newDeliveryDate').value.trim();
 const status = document.getElementById('newStatus').value;
@@ -222,6 +244,7 @@ loadShipmentDropdown();
 
 function updateShipment(event) {
 event.preventDefault();
+resetInactivityTimer();
 const trackingNum = document.getElementById('updateTrackingSelect').value;
 const newStatus = document.getElementById('updateStatus').value;
 const note = document.getElementById('updateNote').value.trim();
