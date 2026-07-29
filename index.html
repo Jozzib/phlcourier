@@ -31,35 +31,38 @@ blue: { 600: '#2563EB', 700: '#1D4ED8' }
 </div>
 </div>
 <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
-<a href="#hero" class="hover:text-white transition">Home</a>
+<a href="index.html" class="hover:text-white transition">Home</a>
 <a href="#services" class="hover:text-white transition">Services</a>
 <a href="#tracking-section" class="hover:text-white transition">Track Shipment</a>
+<a href="contact.html" class="hover:text-white transition">Contact Us</a>
 </nav>
-<!-- Admin link completely removed from public view -->
+<div class="md:hidden">
+<a href="contact.html" class="bg-blue-600 text-white text-xs font-semibold px-4 py-2 rounded-xl">Contact</a>
+</div>
 </div>
 </header>
 
 <!-- Hero Section with Integrated Tracking -->
-<section id="hero" class="relative bg-gradient-to-br from-navy-950 via-navy-900 to-blue-950 text-white py-24 px-6 overflow-hidden">
+<section id="hero" class="relative bg-gradient-to-br from-navy-950 via-navy-900 to-blue-950 text-white py-20 md:py-24 px-6 overflow-hidden">
 <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#2563EB_1px,transparent_1px)] [background-size:16px_16px]"></div>
 
 <div class="max-w-4xl mx-auto text-center space-y-6 relative z-10">
 <span class="inline-block bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-widest">
 World-Class Express Delivery
 </span>
-<h1 class="text-4xl md:text-6xl font-black tracking-tight leading-tight">
+<h1 class="text-3xl sm:text-4xl md:text-6xl font-black tracking-tight leading-tight">
 Fast, Secure & Reliable <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">Global Shipping</span>
 </h1>
-<p class="text-slate-300 text-base md:text-lg max-w-2xl mx-auto font-light">
+<p class="text-slate-300 text-sm md:text-lg max-w-2xl mx-auto font-light">
 From local parcel delivery to international cargo freight, PHL Express ensures your shipments arrive safely and on time.
 </p>
 
 <!-- Interactive Tracking Box -->
-<div id="tracking-section" class="pt-6">
-<div class="bg-white p-3 rounded-2xl shadow-2xl max-w-2xl mx-auto flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2 border border-slate-200">
+<div id="tracking-section" class="pt-4">
+<div class="bg-white p-3 rounded-2xl shadow-2xl max-w-2xl mx-auto flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-2 border border-slate-200">
 <div class="flex items-center pl-3 w-full sm:w-auto flex-grow">
-<span class="text-slate-400 mr-2">📦</span>
-<input type="text" id="search-input" placeholder="Enter tracking number (e.g. PHL-12345)" class="w-full bg-transparent py-3 text-slate-800 text-sm focus:outline-none uppercase font-mono placeholder:normal-case placeholder:font-sans">
+<span class="text-slate-400 mr-2 text-base">📦</span>
+<input type="text" id="search-input" placeholder="Enter tracking number (e.g. PHL-12345)" class="w-full bg-transparent py-2.5 sm:py-3 text-slate-800 text-sm focus:outline-none uppercase font-mono placeholder:normal-case placeholder:font-sans">
 </div>
 <button onclick="trackShipment()" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3.5 rounded-xl text-sm transition shadow-lg shadow-blue-600/30 whitespace-nowrap">
 Track Package
@@ -112,9 +115,9 @@ Tracking number not found in our database. Please verify your tracking ID and tr
 </div>
 
 <!-- Features / Services Section -->
-<section id="services" class="max-w-7xl mx-auto px-6 py-20">
-<div class="text-center space-y-3 mb-16">
-<h2 class="text-3xl font-extrabold text-navy-900 tracking-tight">Why Choose PHL Express?</h2>
+<section id="services" class="max-w-7xl mx-auto px-6 py-16">
+<div class="text-center space-y-3 mb-12">
+<h2 class="text-2xl sm:text-3xl font-extrabold text-navy-900 tracking-tight">Why Choose PHL Express?</h2>
 <p class="text-sm text-slate-500 max-w-lg mx-auto">We provide comprehensive supply chain solutions tailored for speed, security, and global reach.</p>
 </div>
 
@@ -137,6 +140,64 @@ Tracking number not found in our database. Please verify your tracking ID and tr
 </div>
 </section>
 
+<!-- Customer Reviews Section -->
+<section class="bg-slate-100 py-16 px-6 border-y border-slate-200">
+<div class="max-w-7xl mx-auto space-y-12">
+<div class="text-center space-y-3">
+<span class="text-blue-600 text-xs font-semibold uppercase tracking-widest">Client Testimonials</span>
+<h2 class="text-2xl sm:text-3xl font-extrabold text-navy-900">Trusted by Individuals & Global Businesses</h2>
+<p class="text-sm text-slate-500 max-w-md mx-auto">See what our customers have to say about our speed, care, and dependable service.</p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Review 1 -->
+<div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 flex flex-col justify-between">
+<div class="space-y-3">
+<div class="text-amber-400 text-sm">★★★★★</div>
+<p class="text-xs text-slate-600 leading-relaxed">"PHL Express delivered my urgent documents across international borders seamlessly. The live milestone updates gave me complete peace of mind!"</p>
+</div>
+<div class="flex items-center space-x-3 pt-4 border-t border-slate-100">
+<div class="w-9 h-9 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center text-xs">JD</div>
+<div>
+<h4 class="font-bold text-navy-900 text-xs">Jonathan Davis</h4>
+<span class="text-[10px] text-slate-400">Verified Client, London</span>
+</div>
+</div>
+</div>
+
+<!-- Review 2 -->
+<div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 flex flex-col justify-between">
+<div class="space-y-3">
+<div class="text-amber-400 text-sm">★★★★★</div>
+<p class="text-xs text-slate-600 leading-relaxed">"Exceptional customer service and extremely careful handling. My fragile electronics arrived in pristine condition right on schedule."</p>
+</div>
+<div class="flex items-center space-x-3 pt-4 border-t border-slate-100">
+<div class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center text-xs">SM</div>
+<div>
+<h4 class="font-bold text-navy-900 text-xs">Sarah Miller</h4>
+<span class="text-[10px] text-slate-400">E-Commerce Merchant</span>
+</div>
+</div>
+</div>
+
+<!-- Review 3 -->
+<div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 flex flex-col justify-between">
+<div class="space-y-3">
+<div class="text-amber-400 text-sm">★★★★★</div>
+<p class="text-xs text-slate-600 leading-relaxed">"The easiest tracking system I've used. No hidden delays, transparent customs updates, and professional couriers."</p>
+</div>
+<div class="flex items-center space-x-3 pt-4 border-t border-slate-100">
+<div class="w-9 h-9 rounded-full bg-purple-100 text-purple-700 font-bold flex items-center justify-center text-xs">AM</div>
+<div>
+<h4 class="font-bold text-navy-900 text-xs">Marcus Vance</h4>
+<span class="text-[10px] text-slate-400">Operations Director</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
 <!-- Footer -->
 <footer class="bg-navy-950 text-slate-400 py-12 border-t border-slate-800">
 <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6 text-xs">
@@ -145,7 +206,9 @@ Tracking number not found in our database. Please verify your tracking ID and tr
 <span class="font-bold text-white tracking-tight">PHL Express Worldwide</span>
 </div>
 <p>&copy; 2026 PHL Express. All rights reserved.</p>
-<!-- Footer admin link removed -->
+<div class="flex space-x-6">
+<a href="contact.html" class="hover:text-white transition">Contact Us</a>
+</div>
 </div>
 </footer>
 
@@ -177,7 +240,6 @@ document.getElementById("res-tracking").innerText = found.trackingNo;
 document.getElementById("res-recipient").innerText = found.recipient;
 document.getElementById("res-destination").innerText = found.destination;
 
-// Status Badge Color
 const badge = document.getElementById("res-status-badge");
 badge.innerText = found.status;
 badge.className = "px-3 py-1 rounded-full text-xs font-semibold border ";
@@ -186,7 +248,6 @@ else if (found.status === "Out for Delivery") badge.className += "bg-amber-50 te
 else if (found.status === "On Hold") badge.className += "bg-rose-50 text-rose-700 border-rose-200";
 else badge.className += "bg-blue-50 text-blue-700 border-blue-200";
 
-// Render Timeline
 const timeline = document.getElementById("timeline-container");
 timeline.innerHTML = "";
 
