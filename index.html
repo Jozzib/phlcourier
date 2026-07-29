@@ -3,36 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PHL Courier | Global Logistics & Tracking</title>
+<title>PHL Courier | Global Logistics & Shipment Tracking</title>
 <link rel="stylesheet" href="style.css">
-<!-- Google Fonts for a modern, professional look -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 <header>
 <div class="logo">PHL <span>COURIER</span></div>
 <nav>
-<a href="#" onclick="switchTab('tracking')" class="active-nav">Track Shipment</a>
-<a href="#" onclick="switchTab('admin')">Admin Panel</a>
+<a href="#trackingSection" class="active-nav">Tracking</a>
+<a href="#aboutSection">About Us</a>
+<a href="#servicesSection">Services</a>
 </nav>
 </header>
 
 <main>
-<!-- TRACKING SECTION -->
-<section id="trackingSection" class="tab-content">
-<div class="hero">
-<h1>Fast, Secure & Reliable Global Delivery</h1>
-<p>Enter your tracking number below to check real-time shipment status and history.</p>
+<!-- TRACKING HERO SECTION -->
+<section id="trackingSection" class="hero">
+<h1>Global Logistics & Express Delivery</h1>
+<p>Track your cargo, packages, and freight in real-time across international borders.</p>
 <div class="tracking-box">
-<input type="text" id="trackingInput" placeholder="e.g. PHL-948201">
+<input type="text" id="trackingInput" placeholder="Enter tracking number (e.g. PHL-948201)">
 <button onclick="trackShipment()">Track Package</button>
 </div>
-</div>
+</section>
 
+<!-- TRACKING RESULT SECTION -->
 <section id="resultSection" class="result-section hidden">
 <div class="card">
 <div class="card-header">
-<h2>Shipment Overview</h2>
+<h2>Shipment Status</h2>
 <span id="resStatus" class="badge"></span>
 </div>
 <div class="info-grid">
@@ -48,62 +48,39 @@
 
 <h3>Transit History & Checkpoints</h3>
 <ul id="timelineList" class="timeline">
-<!-- Dynamic logs will appear here -->
+<!-- Dynamic logs load here -->
 </ul>
 </div>
 </section>
-</section>
 
-<!-- ADMIN PANEL SECTION -->
-<section id="adminSection" class="tab-content hidden">
-<div class="admin-container">
-<h2>Logistics Management Dashboard</h2>
-<p class="subtitle">Create new shipments, update live locations, or put packages on hold.</p>
-
-<!-- Create New Shipment -->
-<div class="admin-card">
-<h3>1. Register New Shipment</h3>
-<div class="form-group">
-<label>Tracking Number</label>
-<input type="text" id="newTrkNum" placeholder="e.g. PHL-554433">
+<!-- ABOUT US SECTION -->
+<section id="aboutSection" class="about-container">
+<div class="card">
+<h2>About PHL Courier</h2>
+<p style="margin-top: 10px; color: #475569; line-height: 1.6;">
+Founded with a commitment to speed, security, and reliability, <strong>PHL Courier</strong> is a premier global logistics provider. We specialize in secure freight forwarding, express parcel delivery, and comprehensive supply chain solutions for private and corporate clients worldwide.
+</p>
+<div class="features-grid" style="margin-top: 25px;">
+<div class="feature-box">
+<h4>🌍 Global Reach</h4>
+<p>Seamless international and domestic shipping networks.</p>
 </div>
-<div class="form-group">
-<label>Estimated Delivery Date</label>
-<input type="text" id="newDelivery" placeholder="e.g. August 5, 2026">
+<div class="feature-box">
+<h4>🔒 Secure Handling</h4>
+<p>Advanced tracking and secure warehousing protocols.</p>
 </div>
-<button onclick="createShipment()" class="btn-primary">Create Shipment</button>
+<div class="feature-box">
+<h4>⚡ Real-Time Tracking</h4>
+<p>Instant status updates and checkpoint history logs.</p>
 </div>
-
-<!-- Update Existing Shipment -->
-<div class="admin-card">
-<h3>2. Update Status, Location, or Hold Package</h3>
-<div class="form-group">
-<label>Select Shipment</label>
-<select id="adminTrkSelect" onchange="loadAdminShipmentDetails()">
-<option value="">-- Choose Tracking Number --</option>
-</select>
-</div>
-
-<div class="form-group">
-<label>Current Status</label>
-<select id="adminStatusSelect">
-<option value="In Transit">In Transit</option>
-<option value="Out for Delivery">Out for Delivery</option>
-<option value="On Hold">🔴 On Hold (Review Required)</option>
-<option value="Delivered">🟢 Delivered</option>
-</select>
-</div>
-
-<div class="form-group">
-<label>New Location Checkpoint Note</label>
-<input type="text" id="adminLogText" placeholder="e.g. Arrived at International Sorting Hub, London">
-</div>
-
-<button onclick="updateShipmentData()" class="btn-secondary">Save Changes</button>
 </div>
 </div>
 </section>
 </main>
+
+<footer>
+<p>&copy; 2026 PHL Courier. All rights reserved. | Secure Global Logistics</p>
+</footer>
 
 <script src="script.js"></script>
 </body>
