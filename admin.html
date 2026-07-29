@@ -160,14 +160,24 @@ loadShipmentsTable();
 }
 
 function getShipments() {
+try {
 let shipments = localStorage.getItem("phl_shipments");
-if (!shipments) {
-shipments = JSON.stringify([
-{ trackingNo: "PHL-98421", recipient: "Acme Corp Ltd", destination: "London, UK", status: "In Transit" }
-]);
-localStorage.setItem("phl_shipments", shipments);
+if (shipments) {
+let parsed = JSON.parse(shipments);
+if (Array.isArray(parsed)) {
+return parsed;
 }
-return JSON.parse(shipments);
+}
+} catch (err) {
+console.error("Resetting corrupted shipment storage");
+}
+
+// Fallback default array if storage was empty or corrupted
+let defaultShipments = [
+{ trackingNo: "PHL-98421", recipient: "Acme Corp Ltd", destination: "London, UK", status: "In Transit" }
+];
+localStorage.setItem("phl_shipments", JSON.stringify(defaultShipments));
+return defaultShipments;
 }
 
 function addShipment(e) {
