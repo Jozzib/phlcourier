@@ -83,7 +83,7 @@ From local parcel delivery to international cargo freight, PHL Express ensures y
 <div class="bg-white/95 backdrop-blur-md p-3 rounded-2xl shadow-2xl max-w-2xl mx-auto flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-2 border border-white/20">
 <div class="flex items-center pl-3 w-full sm:w-auto flex-grow">
 <span class="text-slate-400 mr-2 text-base">📦</span>
-<input type="text" id="search-input" placeholder="PHL-12345" value="PHL-12345" class="w-full bg-transparent py-2.5 sm:py-3 text-slate-800 text-sm focus:outline-none uppercase font-mono">
+<input type="text" id="search-input" placeholder="PHL-12345" class="w-full bg-transparent py-2.5 sm:py-3 text-slate-800 text-sm focus:outline-none uppercase font-mono">
 </div>
 <button onclick="trackShipment()" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3.5 rounded-xl text-sm transition shadow-lg shadow-blue-600/30 whitespace-nowrap">
 Track Package
@@ -95,13 +95,13 @@ Track Package
 
 <!-- Dynamic Tracking Result Section -->
 <div id="tracking-result-wrapper" class="max-w-3xl w-full mx-auto px-4 -mt-8 relative z-20 pb-12">
-<div id="tracking-result" class="space-y-6">
+<div id="tracking-result" class="space-y-6 hidden">
 <!-- Overview Card -->
 <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xl space-y-4">
 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-4 gap-2">
 <div>
 <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Tracking Number</span>
-<h2 id="res-tracking" class="font-mono font-bold text-lg text-navy-900">PHL-12345</h2>
+<h2 id="res-tracking" class="font-mono font-bold text-lg text-navy-900"></h2>
 </div>
 <div id="res-status-badge" class="px-3 py-1 rounded-full text-xs font-semibold border bg-blue-50 text-blue-700 border-blue-200">
 In Transit
@@ -111,11 +111,11 @@ In Transit
 <div class="grid grid-cols-2 gap-4 text-xs">
 <div>
 <span class="text-slate-400 block mb-0.5">Recipient</span>
-<span id="res-recipient" class="font-semibold text-navy-900 text-sm">Grace</span>
+<span id="res-recipient" class="font-semibold text-navy-900 text-sm"></span>
 </div>
 <div>
 <span class="text-slate-400 block mb-0.5">Destination</span>
-<span id="res-destination" class="font-semibold text-navy-900 text-sm">London, UK</span>
+<span id="res-destination" class="font-semibold text-navy-900 text-sm"></span>
 </div>
 </div>
 </div>
@@ -232,10 +232,6 @@ Tracking number not found in our database. Please verify your tracking ID and tr
 
 <!-- Script Logic -->
 <script>
-window.onload = function() {
-trackShipment();
-}
-
 function toggleMobileMenu() {
 const menu = document.getElementById("mobile-menu");
 menu.classList.toggle("hidden");
@@ -248,7 +244,7 @@ if (shipments && Array.isArray(shipments) && shipments.length > 0) {
 return shipments;
 }
 } catch (err) {}
-
+return [];
 }
 
 function trackShipment() {
