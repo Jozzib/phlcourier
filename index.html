@@ -30,15 +30,30 @@ blue: { 600: '#2563EB', 700: '#1D4ED8' }
 <span class="text-[10px] tracking-widest text-blue-400 uppercase font-semibold">Global Logistics</span>
 </div>
 </div>
+
+<!-- Desktop Nav -->
 <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
 <a href="index.html" class="hover:text-white transition">Home</a>
 <a href="#services" class="hover:text-white transition">Services</a>
 <a href="#tracking-section" class="hover:text-white transition">Track Shipment</a>
 <a href="contact.html" class="hover:text-white transition">Contact Us</a>
 </nav>
-<div class="md:hidden">
-<a href="contact.html" class="bg-blue-600 text-white text-xs font-semibold px-4 py-2 rounded-xl">Contact</a>
+
+<!-- Mobile Menu Button -->
+<div class="md:hidden flex items-center space-x-2">
+<a href="contact.html" class="bg-blue-600 text-white text-xs font-semibold px-3 py-2 rounded-xl">Contact</a>
+<button onclick="toggleMobileMenu()" class="text-slate-300 hover:text-white focus:outline-none p-2 text-2xl">
+☰
+</button>
 </div>
+</div>
+
+<!-- Mobile Dropdown Menu -->
+<div id="mobile-menu" class="hidden md:hidden bg-navy-900 border-t border-slate-800 px-6 py-4 space-y-3 text-sm font-medium text-slate-300 shadow-xl">
+<a href="index.html" class="block hover:text-white transition py-1">Home</a>
+<a href="#services" onclick="toggleMobileMenu()" class="block hover:text-white transition py-1">Services</a>
+<a href="#tracking-section" onclick="toggleMobileMenu()" class="block hover:text-white transition py-1">Track Shipment</a>
+<a href="contact.html" class="block text-blue-400 font-semibold transition py-1">Contact Us</a>
 </div>
 </header>
 
@@ -209,11 +224,15 @@ Tracking number not found in our database. Please verify your tracking ID and tr
 </div>
 </footer>
 
-<!-- Script Logic with Automatic Storage Fallback -->
+<!-- Script Logic -->
 <script>
 window.onload = function() {
-// Auto-load default tracking result on page load
 trackShipment();
+}
+
+function toggleMobileMenu() {
+const menu = document.getElementById("mobile-menu");
+menu.classList.toggle("hidden");
 }
 
 function getShipments() {
@@ -224,7 +243,6 @@ return shipments;
 }
 } catch (err) {}
 
-// Fallback default data if localStorage is empty
 const defaultShipments = [
 {
 trackingNo: "PHL-12345",
@@ -243,7 +261,7 @@ return defaultShipments;
 
 function trackShipment() {
 let query = document.getElementById("search-input").value.trim().toUpperCase();
-if (!query) query = "PHL-12345"; // Default if empty
+if (!query) query = "PHL-12345";
 
 const wrapper = document.getElementById("tracking-result-wrapper");
 const resultBox = document.getElementById("tracking-result");
