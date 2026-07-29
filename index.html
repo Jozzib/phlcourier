@@ -9,6 +9,11 @@
 <!-- Preload background image for instant loading performance -->
 <link rel="preload" as="image" href="cargo.png">
 <script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Firebase App Core & Firestore Compat SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
 <script>
 tailwind.config = {
 theme: {
@@ -20,6 +25,20 @@ blue: { 600: '#2563EB', 700: '#1D4ED8' }
 }
 }
 }
+
+// Initialize Firebase Cloud Database
+const firebaseConfig = {
+apiKey: "AIzaSyAp5Xbup9qdNplMzkQPgeu49ZFjq0RLgko",
+authDomain: "phl-courier.firebaseapp.com",
+projectId: "phl-courier",
+storageBucket: "phl-courier.firebasestorage.app",
+messagingSenderId: "858130682931",
+appId: "1:858130682931:web:8493a4470a9e0e5827bf46",
+measurementId: "G-5SRRPR6PTY"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 </script>
 </head>
 <body class="bg-slate-50 font-sans text-slate-600 antialiased min-h-screen flex flex-col justify-between">
@@ -237,16 +256,6 @@ const menu = document.getElementById("mobile-menu");
 menu.classList.toggle("hidden");
 }
 
-function getShipments() {
-try {
-let shipments = JSON.parse(localStorage.getItem("phl_shipments"));
-if (shipments && Array.isArray(shipments) && shipments.length > 0) {
-return shipments;
-}
-} catch (err) {}
-return [];
-}
-
 function trackShipment() {
 let query = document.getElementById("search-input").value.trim().toUpperCase();
 if (!query) {
@@ -260,10 +269,10 @@ const errorBox = document.getElementById("tracking-error");
 
 wrapper.classList.remove("hidden");
 
-const shipments = getShipments();
-const found = shipments.find(s => s.trackingNo.toUpperCase() === query);
-
-if (found) {
+// Query live cloud database (Firestore)
+db.collection("shipments").doc(query).get().then((doc) => {
+if (doc.exists) {
+let found = doc.data();
 errorBox.classList.add("hidden");
 resultBox.classList.remove("hidden");
 
@@ -309,6 +318,9 @@ timeline.innerHTML = `<p class="text-xs text-slate-400">No checkpoints recorded 
 resultBox.classList.add("hidden");
 errorBox.classList.remove("hidden");
 }
+}).catch((error) => {
+console.error("Error fetching shipment:", error);
+});
 }
 </script>
 </body>
