@@ -1,197 +1,58 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact Us | PHL Express Global Logistics</title>
+<title>Contact Us | PHL Express</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-theme: {
-extend: {
-colors: {
-navy: { 900: '#0F172A', 950: '#090D16' },
-blue: { 600: '#2563EB', 700: '#1D4ED8' }
-}
-}
-}
-}
-</script>
 </head>
-<body class="bg-slate-50 font-sans text-slate-600 antialiased min-h-screen flex flex-col justify-between">
-
-<!-- Top Navigation -->
-<header class="bg-navy-950 text-white border-b border-slate-800 sticky top-0 z-40">
-<div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-<div class="flex items-center space-x-3">
-<div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center font-bold text-lg shadow-lg shadow-blue-600/30">P</div>
-<div class="flex flex-col">
-<span class="font-black tracking-tight text-lg text-white">PHL EXPRESS</span>
-<span class="text-[10px] tracking-widest text-blue-400 uppercase font-semibold">Global Logistics</span>
-</div>
-</div>
-
-<!-- Desktop Nav -->
-<nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
-<a href="index.html" class="hover:text-white transition">Home</a>
-<a href="index.html#services" class="hover:text-white transition">Services</a>
-<a href="index.html#tracking-section" class="hover:text-white transition">Track Shipment</a>
-<a href="contact.html" class="text-white font-semibold transition">Contact Us</a>
-</nav>
-
-<!-- Mobile Menu Button -->
-<div class="md:hidden flex items-center space-x-2">
-<a href="index.html" class="bg-slate-800 text-slate-300 text-xs font-semibold px-3 py-2 rounded-xl border border-slate-700">Home</a>
-<button onclick="toggleMobileMenu()" class="text-slate-300 hover:text-white focus:outline-none p-2 text-2xl">
-☰
-</button>
-</div>
-</div>
-
-<!-- Mobile Dropdown Menu -->
-<div id="mobile-menu" class="hidden md:hidden bg-navy-900 border-t border-slate-800 px-6 py-4 space-y-3 text-sm font-medium text-slate-300 shadow-xl">
-<a href="index.html" class="block hover:text-white transition py-1">Home</a>
-<a href="index.html#services" class="block hover:text-white transition py-1">Services</a>
-<a href="index.html#tracking-section" class="block hover:text-white transition py-1">Track Shipment</a>
-<a href="contact.html" class="block text-blue-400 font-semibold transition py-1">Contact Us</a>
+<body class="bg-slate-50 font-sans text-slate-800">
+<header class="bg-slate-900 text-white py-4 px-6">
+<div class="max-w-7xl mx-auto flex justify-between items-center">
+<a href="index.html" class="text-xl font-black tracking-wider text-amber-400">PHL EXPRESS</a>
+<a href="index.html" class="text-xs text-slate-300 hover:underline">&larr; Back to Tracking</a>
 </div>
 </header>
 
-<!-- Contact Header -->
-<section class="bg-gradient-to-br from-navy-950 via-navy-900 to-blue-950 text-white py-16 px-6 text-center">
-<div class="max-w-3xl mx-auto space-y-4">
-<span class="inline-block bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-widest">
-Customer Support
-</span>
-<h1 class="text-3xl sm:text-4xl font-black tracking-tight">Get in Touch With Our Team</h1>
-<p class="text-slate-300 text-sm max-w-lg mx-auto font-light">Have questions regarding your shipment, rates, or business partnerships? Send us a message and our support staff will respond promptly.</p>
-</div>
-</section>
+<main class="max-w-5xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-12">
+<div>
+<h1 class="text-3xl font-black text-slate-900 mb-4">Get in Touch with Dispatch</h1>
+<p class="text-slate-600 text-sm mb-8">Our global logistics support team is available 24/7 to assist you with tracking inquiries, corporate freight, and dispatch operations.</p>
 
-<!-- Contact Form & Info Grid -->
-<section class="max-w-6xl mx-auto px-6 py-16 w-full">
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-<!-- Contact Information Sidebar -->
-<div class="bg-navy-900 text-white p-8 rounded-2xl shadow-lg space-y-6 flex flex-col justify-between">
-<div class="space-y-6">
-<div>
-<h3 class="text-lg font-bold">Contact Information</h3>
-<p class="text-xs text-slate-400 mt-1">Reach out through any of our official channels.</p>
+<div class="space-y-4 text-sm">
+<div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+<p class="font-bold text-slate-900">📧 Customer Support Email</p>
+<p class="text-amber-600 font-semibold mt-1">support@phlexpress.com</p>
 </div>
-
-<div class="space-y-4 text-xs">
-<div class="flex items-start space-x-3">
-<span class="text-blue-400 text-base">📍</span>
-<div>
-<strong class="block text-white">Global Headquarters</strong>
-<span class="text-slate-400">14 Logistics Avenue, Victoria Island, Lagos</span>
+<div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+<p class="font-bold text-slate-900">📞 Customer Service Phone</p>
+<p class="text-slate-600 mt-1">+1 (800) 555-PHL-LOGISTICS</p>
 </div>
-</div>
-<div class="flex items-start space-x-3">
-<span class="text-blue-400 text-base">✉️</span>
-<div>
-<strong class="block text-white">Email Support</strong>
-<span class="text-slate-400">support@phlexpress.com</span>
-</div>
-</div>
-<div class="flex items-start space-x-3">
-<span class="text-blue-400 text-base">📞</span>
-<div>
-<strong class="block text-white">Helpline</strong>
-<span class="text-slate-400">+1 (800) 555-PHL-EXPRESS</span>
-</div>
+<div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+<p class="font-bold text-slate-900">📍 Global Dispatch & Corporate Office</p>
+<p class="text-slate-600 mt-1">100 Logistics Parkway, Suite 400, New York, NY 10001</p>
 </div>
 </div>
 </div>
 
-<div class="bg-navy-950 p-4 rounded-xl border border-slate-800 text-[11px] text-slate-400">
-Support Hours: Monday – Saturday, 8:00 AM – 7:00 PM GMT
-</div>
-</div>
-
-<!-- Contact Form -->
-<div class="lg:col-span-2 bg-white p-8 rounded-2xl border border-slate-200 shadow-xl space-y-6">
+<div class="bg-white p-8 rounded-3xl shadow-lg border border-slate-200">
+<h3 class="text-lg font-bold text-slate-900 mb-4">Send Us a Message</h3>
+<form class="space-y-4" onsubmit="event.preventDefault(); alert('Message sent successfully! Our team will reply shortly.');">
 <div>
-<h3 class="text-lg font-bold text-navy-900">Send Us a Message</h3>
-<p class="text-xs text-slate-500">Fill out the form below and we will get back to you within 24 hours.</p>
-</div>
-
-<form onsubmit="handleContactSubmit(event)" class="space-y-4">
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-<div>
-<label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Your Full Name</label>
-<input type="text" id="contact-name" required placeholder="John Doe" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-xs text-slate-800 focus:outline-none focus:border-blue-600">
+<label class="block text-xs font-bold text-slate-700 mb-1">Your Name</label>
+<input type="text" required class="w-full border border-slate-300 rounded-xl p-3 text-sm outline-none focus:ring-2 focus:ring-amber-500" placeholder="John Doe">
 </div>
 <div>
-<label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Email Address</label>
-<input type="email" id="contact-email" required placeholder="john@example.com" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-xs text-slate-800 focus:outline-none focus:border-blue-600">
-</div>
-</div>
-<div>
-<label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Subject / Tracking ID (Optional)</label>
-<input type="text" id="contact-subject" placeholder="Inquiry regarding shipment PHL-12345" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-xs text-slate-800 focus:outline-none focus:border-blue-600">
+<label class="block text-xs font-bold text-slate-700 mb-1">Email Address</label>
+<input type="email" required class="w-full border border-slate-300 rounded-xl p-3 text-sm outline-none focus:ring-2 focus:ring-amber-500" placeholder="john@example.com">
 </div>
 <div>
-<label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Your Message</label>
-<textarea id="contact-message" required rows="4" placeholder="Type your message here..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-xs text-slate-800 focus:outline-none focus:border-blue-600 resize-none"></textarea>
+<label class="block text-xs font-bold text-slate-700 mb-1">Message / Inquiry</label>
+<textarea rows="4" required class="w-full border border-slate-300 rounded-xl p-3 text-sm outline-none focus:ring-2 focus:ring-amber-500" placeholder="How can we help with your shipment?"></textarea>
 </div>
-<button type="submit" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3.5 rounded-xl text-xs transition shadow-lg shadow-blue-600/30">
-Send Message
-</button>
+<button type="submit" class="w-full bg-slate-900 text-amber-400 font-bold py-3.5 rounded-xl text-sm hover:bg-slate-800 transition shadow">Submit Inquiry</button>
 </form>
-
-<!-- Success Notification Box -->
-<div id="contact-success" class="hidden bg-emerald-50 border border-emerald-200 text-emerald-700 p-4 rounded-xl text-xs font-medium text-center">
-Thank you! Your message has been sent successfully. Our support team will reach out to you shortly.
 </div>
-</div>
-
-</div>
-</section>
-
-<!-- Footer -->
-<footer class="bg-navy-950 text-slate-400 py-12 border-t border-slate-800">
-<div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6 text-xs">
-<div class="flex items-center space-x-3">
-<div class="w-6 h-6 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-white text-xs">P</div>
-<span class="font-bold text-white tracking-tight">PHL Express Worldwide</span>
-</div>
-<p>&copy; 2026 PHL Express. All rights reserved.</p>
-<div class="flex space-x-6">
-<a href="index.html" class="hover:text-white transition">Home</a>
-</div>
-</div>
-</footer>
-
-<!-- Contact Script Logic -->
-<script>
-function toggleMobileMenu() {
-const menu = document.getElementById("mobile-menu");
-menu.classList.toggle("hidden");
-}
-
-function handleContactSubmit(e) {
-e.preventDefault();
-const name = document.getElementById("contact-name").value;
-const email = document.getElementById("contact-email").value;
-const subject = document.getElementById("contact-subject").value;
-const message = document.getElementById("contact-message").value;
-
-let inquiries = [];
-try {
-inquiries = JSON.parse(localStorage.getItem("phl_inquiries")) || [];
-} catch (err) { inquiries = []; }
-
-inquiries.push({ name, email, subject, message, date: new Date().toISOString() });
-localStorage.setItem("phl_inquiries", JSON.stringify(inquiries));
-
-e.target.reset();
-document.getElementById("contact-success").classList.remove("hidden");
-setTimeout(() => {
-document.getElementById("contact-success").classList.add("hidden");
-}, 6000);
-}
-</script>
+</main>
 </body>
 </html>
